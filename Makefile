@@ -9,3 +9,5 @@ migrate:
 checks:
 	@pre-commit run --all
 	@pytest --cov=src
+git-hooks:
+	@pre-commit install -t pre-commit -t pre-push
