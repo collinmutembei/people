@@ -3,7 +3,6 @@ alembic
 asyncpg
 uvicorn
 fastapi
-fastapi-health
 python-decouple
 
 # dev

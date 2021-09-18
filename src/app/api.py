@@ -1,5 +1,4 @@
 from fastapi import Depends, FastAPI
-from fastapi_health import health
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
@@ -7,11 +6,6 @@ from app.db import get_session
 from app.models import Profile, ProfileCreate
 
 api = FastAPI()
-
-
-@api.get("/healthz")
-async def healthz(session: AsyncSession = Depends(get_session)):
-    return health([session])
 
 
 @api.get("/people", response_model=list[Profile])
