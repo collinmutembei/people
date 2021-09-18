@@ -1,0 +1,13 @@
+sqlmodel
+alembic
+asyncpg
+uvicorn
+fastapi
+fastapi-health
+python-decouple
+
+# dev
+pytest
+pytest-cov
+requests
+pre-commit

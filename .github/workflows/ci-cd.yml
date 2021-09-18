@@ -1,0 +1,77 @@
+name: Continuos Integration + Delivery Action
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+
+env:
+  DATABASE_URL: "postgresql+asyncpg://postgres:postgres@postgres:5432/test"
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    container: python:3.9
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install system dependencies
+        run: apt-get install -y libpq-dev
+
+      - name: Install project dependencies
+        run: |
+          pip install --upgrade wheel pip
+          pip install -r src/requirements.txt
+
+      - name: Run Linters and Checks
+        run: |
+          pre-commit run --all
+
+      - name: Run tests
+        run: |
+          pytest --cov=api
+
+  build_and_publish:
+    runs-on: ubuntu-latest
+    needs: [checks]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build and publish app
+        uses: openzim/docker-publish-action@v5
+        with:
+          image-name: collinmutembei/api
+          on-master: latest
+          latest-on-tag: true
+          restrict-to: collinmutembei/api
+          context: src
+          registries: |
+            ghcr.io
+          credentials: |
+            GHCRIO_USERNAME=${{ github.repository_owner }}
+            GHCRIO_TOKEN=${{ secrets.CR_PAT }}
+          build-args: |
+            PROJECT_VERSION=latest
+            COMMIT_ID=${{ github.sha }}
