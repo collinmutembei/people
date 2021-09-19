@@ -9,7 +9,7 @@ from sqlmodel import SQLModel
 
 from alembic import context
 
-# Import app models
+from app.models import Profile  # noqa
 
 
 # this is the Alembic Config object, which provides
