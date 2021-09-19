@@ -44,6 +44,10 @@ jobs:
           pip install --upgrade wheel pip
           pip install -r src/requirements.txt
 
+      - name: Run migrations
+        run: |
+          cd src && alembic upgrade head
+
       - name: Run Linters and Checks
         run: |
           pre-commit run --all
