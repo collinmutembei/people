@@ -1,48 +1,29 @@
-from fastapi import Depends, FastAPI
-from fastapi_pagination import LimitOffsetPage, add_pagination, paginate
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.future import select
+from fastapi import FastAPI
+from fastapi.openapi.utils import get_openapi
+from fastapi_pagination import add_pagination
 
-from app.db import get_session
-from app.models import Profile, ProfileCreate
+from .routes.profile import router as ProfileRouter
 
 api = FastAPI()
 
-
-@api.get("/people", response_model=LimitOffsetPage[Profile])
-async def get_people(session: AsyncSession = Depends(get_session)):
-    """
-    Return all people
-    """
-    result = await session.execute(select(Profile))
-    people = result.scalars().all()
-    return paginate(
-        [
-            Profile(
-                first_name=person.first_name,
-                last_name=person.last_name,
-                surname=person.surname,
-                id=person.id,
-            )
-            for person in people
-        ]
-    )
-
-
-@api.post("/people")
-async def add_person(
-    person: ProfileCreate, session: AsyncSession = Depends(get_session)
-):
-    """
-    Add a person
-    """
-    profile = Profile(
-        first_name=person.first_name, last_name=person.last_name, surname=person.surname
-    )
-    session.add(profile)
-    await session.commit()
-    await session.refresh(profile)
-    return profile
-
+api.include_router(ProfileRouter, prefix="/people", tags=["profile"])
 
 add_pagination(api)
+
+
+def custom_openapi():
+    """Custom openapi"""
+    if api.openapi_schema:
+        return api.openapi_schema
+    openapi_schema = get_openapi(
+        title="People",
+        version="0.0.1",
+        description="know people",
+        routes=api.routes,
+    )
+    openapi_schema["info"]["x-logo"] = {"url": "https://collinmutembei.dev/favicon.ico"}
+    api.openapi_schema = openapi_schema
+    return api.openapi_schema
+
+
+api.openapi = custom_openapi  # type: ignore
