@@ -6,7 +6,6 @@ def test_get_people(client):
         "/people",
     )
     assert response.status_code == 200
-    # assert response.json() == []
 
 
 def test_post_people(client):
@@ -16,4 +15,11 @@ def test_post_people(client):
     assert "id" in response.json()
     assert response.json()["first_name"] == person.first_name
     assert response.json()["last_name"] == person.last_name
-    assert response.json()["surname"] == person.surname
+
+
+def test_put_people():
+    pass
+
+
+def test_delete_people():
+    pass
