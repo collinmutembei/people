@@ -3,6 +3,7 @@ alembic
 asyncpg
 uvicorn
 fastapi
+fastapi-pagination
 python-decouple
 
 # dev
