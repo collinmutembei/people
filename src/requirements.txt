@@ -1,13 +1,15 @@
-sqlmodel
 alembic
 asyncpg
 uvicorn
 fastapi
+fastapi-health
 fastapi-pagination
 python-decouple
+pydantic
 
 # dev
 pytest
 pytest-cov
 requests
 pre-commit
+ipdb
