@@ -1,8 +1,10 @@
 from datetime import date
 from typing import Optional
+from uuid import UUID
 
 from fastapi_users import models
 from fastapi_users.db import TortoiseBaseUserModel
+from pydantic import BaseModel
 from tortoise import fields
 from tortoise.contrib.pydantic import PydanticModel
 
@@ -26,6 +28,7 @@ class User(TortoiseBaseUserModel):
     name = fields.CharField(max_length=50)
     birthdate = fields.DateField(null=True)
 
+    @property
     def age(self) -> int:
         today = date.today()
         return (
@@ -42,3 +45,12 @@ class UserDB(UserBase, models.BaseUserDB, PydanticModel):
     class Config:
         orm_mode = True
         orig_model = User
+
+
+class UserBaseModel(BaseModel):
+    id: UUID
+
+
+class UserModel(UserBaseModel):
+    name: str
+    age: int

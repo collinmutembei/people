@@ -12,10 +12,9 @@ CREATE TABLE IF NOT EXISTS "user" (
 CREATE INDEX IF NOT EXISTS "idx_user_email_1b4f1c" ON "user" ("email");
 CREATE TABLE IF NOT EXISTS "socialaccountservice" (
     "id" SERIAL NOT NULL PRIMARY KEY,
-    "domain" VARCHAR(50),
-    "provider" VARCHAR(9) NOT NULL
+    "name" VARCHAR(20) NOT NULL UNIQUE,
+    "domain" VARCHAR(50)
 );
-COMMENT ON COLUMN "socialaccountservice"."provider" IS 'FACEBOOK: facebook\nTWITTER: twitter\nINSTAGRAM: instagram\nTIKTOK: tiktok\nYOUTUBE: youtube';
 CREATE TABLE IF NOT EXISTS "socialaccount" (
     "id" UUID NOT NULL  PRIMARY KEY,
     "address" VARCHAR(20) NOT NULL UNIQUE,

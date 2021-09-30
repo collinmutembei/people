@@ -4,6 +4,8 @@ from tortoise.contrib.fastapi import register_tortoise
 from app.core.users import fastapi_users, jwt_authentication
 from app.routes.auth import router as AuthRouter
 from app.routes.people import router as PeopleRouter
+from app.routes.socials import account_router as SocialAccountRouter
+from app.routes.socials import service_router as SocialServiceRouter
 from app.settings.openapi import openapi_config
 from app.settings.orm import orm_config
 
@@ -30,6 +32,7 @@ api.include_router(
 )
 api.include_router(fastapi_users.get_users_router(), prefix="/users", tags=["users"])
 api.include_router(PeopleRouter, prefix="/people", tags=["people"])
-
+api.include_router(SocialAccountRouter)
+api.include_router(SocialServiceRouter)
 
 register_tortoise(api, **orm_config.dict())

@@ -10,6 +10,8 @@ tortoise-orm = {version = "==0.17.7", extras = ["asyncpg"]}
 fastapi-users = {version = "==8.1.0", extras = ["tortoise-orm"]}
 aerich = "==0.5.8"
 python-decouple = "==3.4"
+fastapi-crudrouter = "==0.8.3"
+pydantic = "==1.8.2"
 
 [dev-packages]
 ipdb = "*"

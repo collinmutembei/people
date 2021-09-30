@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "073ec54a97538688d9c71cd1c033e035978518c8da8ec42263853ac6082d41dd"
+            "sha256": "f70318df69bf4bbbd8d08586f49294c1fcf7c025b72001b91b77315ef3ae99d9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -166,6 +166,14 @@
             "index": "pypi",
             "version": "==0.68.1"
         },
+        "fastapi-crudrouter": {
+            "hashes": [
+                "sha256:0e84bcb7234a5566c07a6779e1984ddd2000e28d2266873ad7ba21ff2638b825",
+                "sha256:4005e619be0fe43fb66e6c0efdccc9a68c7b4f12441cd5dc4c27b7fd48c58e5f"
+            ],
+            "index": "pypi",
+            "version": "==0.8.3"
+        },
         "fastapi-users": {
             "extras": [
                 "tortoise-orm"
@@ -257,7 +265,7 @@
                 "sha256:ea5cb40a3b23b3265f6325727ddfc45141b08ed665458be8c6285e7b85bd73a1",
                 "sha256:fec866a0b59f372b7e776f2d7308511784dace622e0992a0b59ea3ccee0ae833"
             ],
-            "markers": "python_full_version >= '3.6.1'",
+            "index": "pypi",
             "version": "==1.8.2"
         },
         "pyjwt": {
