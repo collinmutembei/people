@@ -1,8 +1,8 @@
 from app.settings.base import AppSettings
 
-OPENAPI_API_NAME = "API"
+OPENAPI_API_NAME = "People"
 OPENAPI_API_VERSION = "0.0.1"
-OPENAPI_API_DESCRIPTION = "You know, for API"
+OPENAPI_API_DESCRIPTION = "You know, for people"
 
 
 class OpenAPISettings(AppSettings):
