@@ -23,6 +23,7 @@ class UserUpdate(models.BaseUserUpdate):
 
 
 class User(TortoiseBaseUserModel):
+    name = fields.CharField(max_length=50)
     birthdate = fields.DateField(null=True)
 
     def age(self) -> int:
