@@ -18,7 +18,7 @@ class UserCreate(models.BaseUserCreate):
 
 
 class UserUpdate(models.BaseUserUpdate):
-    name: str
+    name: Optional[str]
     birthdate: Optional[date]
 
 
