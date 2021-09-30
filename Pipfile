@@ -18,6 +18,7 @@ pytest-cov = "*"
 requests = "*"
 pre-commit = "*"
 tortoise-cli = "*"
+asynctest = "*"
 
 [requires]
 python_version = "3.9"

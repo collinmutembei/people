@@ -7,7 +7,7 @@ from fastapi_users.authentication import JWTAuthentication
 from fastapi_users.db import TortoiseUserDatabase
 
 from app.db import get_user_db
-from app.models.users import User, UserCreate, UserDB, UserUpdate
+from app.models.users import UserBase, UserCreate, UserDB, UserUpdate
 
 SECRET = config("SECRET", default="7bb9f5050b304ca37d2e60d0e3a9d2bf23e859be")
 JWT_LIFETIME_SECONDS = 3600
@@ -43,7 +43,7 @@ jwt_authentication = JWTAuthentication(  # type: ignore
 fastapi_users = FastAPIUsers(
     get_user_manager,
     [jwt_authentication],
-    User,
+    UserBase,
     UserCreate,
     UserUpdate,
     UserDB,
