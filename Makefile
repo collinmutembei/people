@@ -11,3 +11,5 @@ checks:
 	@pytest --cov=src
 shell:
 	@cd src && ipython
+git-hook:
+	@pre-commit install -t pre-commit -t pre-push
