@@ -2,7 +2,7 @@ from decouple import config
 
 from app.settings.base import AppSettings
 
-DB_MODELS = ["app.models.users", "aerich.models"]
+DB_MODELS = ["app.models.users", "app.models.socials", "aerich.models"]
 
 DEBUG = config("DEBUG", default=False, cast=bool)
 
