@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS "user" (
     "is_active" BOOL NOT NULL  DEFAULT True,
     "is_superuser" BOOL NOT NULL  DEFAULT False,
     "is_verified" BOOL NOT NULL  DEFAULT False,
+    "name" VARCHAR(50) NOT NULL,
     "birthdate" DATE
 );
 CREATE INDEX IF NOT EXISTS "idx_user_email_1b4f1c" ON "user" ("email");
