@@ -3,7 +3,7 @@ from fastapi_users.db import TortoiseBaseUserModel
 from tortoise.contrib.pydantic import PydanticModel
 
 
-class User(models.BaseUser):
+class UserBase(models.BaseUser):
     pass
 
 
@@ -15,11 +15,11 @@ class UserUpdate(models.BaseUserUpdate):
     pass
 
 
-class UserModel(TortoiseBaseUserModel):
+class User(TortoiseBaseUserModel):
     pass
 
 
-class UserDB(User, models.BaseUserDB, PydanticModel):
+class UserDB(UserBase, models.BaseUserDB, PydanticModel):
     class Config:
         orm_mode = True
-        orig_model = UserModel
+        orig_model = User
