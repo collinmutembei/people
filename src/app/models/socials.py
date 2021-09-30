@@ -1,21 +1,17 @@
-from enum import Enum
+from datetime import datetime
+from uuid import UUID
 
+from pydantic import BaseModel
 from tortoise import fields, models
 from tortoise.contrib.pydantic import pydantic_model_creator
 
-
-class SocialAccountServiceProviders(Enum):
-    FACEBOOK = "facebook"
-    TWITTER = "twitter"
-    INSTAGRAM = "instagram"
-    TIKTOK = "tiktok"
-    YOUTUBE = "youtube"
+from app.models.users import UserBaseModel, UserModel
 
 
 class SocialAccountService(models.Model):
     id = fields.IntField(pk=True)
+    name = fields.CharField(max_length=20, unique=True)
     domain = fields.CharField(max_length=50, null=True)
-    provider = fields.CharEnumField(enum_type=SocialAccountServiceProviders)
 
 
 class SocialAccount(models.Model):
@@ -36,7 +32,33 @@ class SocialAccount(models.Model):
         computed = ["url"]
 
 
-SocialAccountModel = pydantic_model_creator(SocialAccount, name="SocialAccountModel")
-SocialAccountCreateModel = pydantic_model_creator(
-    SocialAccount, name="SocialAccountCreateModel", exclude_readonly=True
+SocialAccountServiceModel = pydantic_model_creator(
+    SocialAccountService, name="SocialAccountServiceModel"
 )
+
+
+SocialAccountServiceCreateModel = pydantic_model_creator(
+    SocialAccountService, name="SocialAccountServiceCreateModel", exclude_readonly=True
+)
+
+
+class SocialAccountServiceReadModel(BaseModel):
+    name: str
+
+
+# SocialAccountSchema = pydantic_model_creator(SocialAccount, name="SocialAccountSchema")
+
+
+class SocialAccountModel(BaseModel):
+    id: UUID
+    service: SocialAccountServiceReadModel
+    user: UserModel
+    created_at: datetime
+    modified_at: datetime
+    url: str
+
+
+class SocialAccountCreateModel(BaseModel):
+    address: str
+    service: SocialAccountServiceReadModel
+    user: UserBaseModel
