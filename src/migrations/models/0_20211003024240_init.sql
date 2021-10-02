@@ -10,18 +10,22 @@ CREATE TABLE IF NOT EXISTS "user" (
     "birthdate" DATE
 );
 CREATE INDEX IF NOT EXISTS "idx_user_email_1b4f1c" ON "user" ("email");
-CREATE TABLE IF NOT EXISTS "socialaccountservice" (
+CREATE TABLE IF NOT EXISTS "socialnetwork" (
+    "created_at" TIMESTAMPTZ   DEFAULT CURRENT_TIMESTAMP,
+    "modified_at" TIMESTAMPTZ   DEFAULT CURRENT_TIMESTAMP,
     "id" SERIAL NOT NULL PRIMARY KEY,
     "name" VARCHAR(20) NOT NULL UNIQUE,
-    "domain" VARCHAR(50)
+    "domain" VARCHAR(50),
+    "account_prefix" VARCHAR(30)
 );
 CREATE TABLE IF NOT EXISTS "socialaccount" (
-    "id" UUID NOT NULL  PRIMARY KEY,
-    "address" VARCHAR(20) NOT NULL UNIQUE,
-    "created_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
-    "modified_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
-    "service_id" INT NOT NULL REFERENCES "socialaccountservice" ("id") ON DELETE CASCADE,
-    "user_id" UUID NOT NULL REFERENCES "user" ("id") ON DELETE CASCADE
+    "created_at" TIMESTAMPTZ   DEFAULT CURRENT_TIMESTAMP,
+    "modified_at" TIMESTAMPTZ   DEFAULT CURRENT_TIMESTAMP,
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "username" VARCHAR(20) NOT NULL UNIQUE,
+    "network_id" INT NOT NULL REFERENCES "socialnetwork" ("id") ON DELETE CASCADE,
+    "user_id" UUID NOT NULL REFERENCES "user" ("id") ON DELETE CASCADE,
+    CONSTRAINT "uid_socialaccou_usernam_c7b09a" UNIQUE ("username", "network_id")
 );
 CREATE TABLE IF NOT EXISTS "aerich" (
     "id" SERIAL NOT NULL PRIMARY KEY,

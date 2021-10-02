@@ -6,6 +6,6 @@ from app.models.users import UserDB
 router = APIRouter()
 
 
-@router.get("/network")
+@router.get("")
 async def your_network(user: UserDB = Depends(current_active_user)):
     return {"message": f"Hello {user.email}!"}
