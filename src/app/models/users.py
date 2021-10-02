@@ -29,13 +29,22 @@ class User(TortoiseBaseUserModel):
     birthdate = fields.DateField(null=True)
 
     @property
-    def age(self) -> int:
+    def age(self) -> Optional[int]:
+        """
+        Returns user's age based on birthdate
+        Source: https://stackoverflow.com/a/9754466
+        """
         today = date.today()
-        return (
-            today.year
-            - self.birthdate.year
-            - ((today.month, today.day) < (self.birthdate.month, self.birthdate.day))
-        )
+        if self.birthdate:
+            return (
+                today.year
+                - self.birthdate.year
+                - (
+                    (today.month, today.day)
+                    < (self.birthdate.month, self.birthdate.day)
+                )
+            )
+        return None
 
     class PydanticMeta:
         computed = ["age"]

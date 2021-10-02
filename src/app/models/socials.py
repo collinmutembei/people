@@ -1,64 +1,48 @@
-from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel
 from tortoise import fields, models
-from tortoise.contrib.pydantic import pydantic_model_creator
+from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_creator
 
-from app.models.users import UserBaseModel, UserModel
+from app.models.mixins import TimestampMixin
+
+# from app.utils import get_account_url
 
 
-class SocialAccountService(models.Model):
+class SocialNetwork(TimestampMixin, models.Model):
     id = fields.IntField(pk=True)
     name = fields.CharField(max_length=20, unique=True)
     domain = fields.CharField(max_length=50, null=True)
+    account_prefix = fields.CharField(max_length=30, null=True)
 
 
-class SocialAccount(models.Model):
-    id = fields.UUIDField(pk=True)
-    address = fields.CharField(max_length=20, unique=True)
-    service = fields.ForeignKeyField(
-        "models.SocialAccountService", related_name="accounts"
-    )
+SocialNetworkModel = pydantic_model_creator(SocialNetwork, name="SocialNetworkModel")
+
+
+SocialNetworkCreateModel = pydantic_model_creator(
+    SocialNetwork, name="SocialNetworkCreateModel", exclude_readonly=True
+)
+
+
+class SocialAccount(TimestampMixin, models.Model):
+    id = fields.IntField(pk=True)
+    username = fields.CharField(max_length=20, unique=True)
+    network = fields.ForeignKeyField("models.SocialNetwork", related_name="accounts")
     user = fields.ForeignKeyField("models.User", related_name="social_accounts")
-    created_at = fields.DatetimeField(auto_now_add=True)
-    modified_at = fields.DatetimeField(auto_now=True)
 
-    async def url(self) -> str:
-        service_domain = await self.service.domain  # type: ignore
-        return f"{service_domain}/{self.address}"
+    # @property
+    # async def url(self) -> str:
+    #     return get_account_url(self.network, self)
 
-    class PydanticMeta:
-        computed = ["url"]
+    class Meta:
+        unique_together = (("username", "network"),)
 
 
-SocialAccountServiceModel = pydantic_model_creator(
-    SocialAccountService, name="SocialAccountServiceModel"
-)
+SocialAccountModel = pydantic_model_creator(SocialAccount, name="SocialAccountModel")
 
-
-SocialAccountServiceCreateModel = pydantic_model_creator(
-    SocialAccountService, name="SocialAccountServiceCreateModel", exclude_readonly=True
-)
-
-
-class SocialAccountServiceReadModel(BaseModel):
-    name: str
-
-
-# SocialAccountSchema = pydantic_model_creator(SocialAccount, name="SocialAccountSchema")
-
-
-class SocialAccountModel(BaseModel):
-    id: UUID
-    service: SocialAccountServiceReadModel
-    user: UserModel
-    created_at: datetime
-    modified_at: datetime
-    url: str
+SocialAccountListModel = pydantic_queryset_creator(SocialAccount)
 
 
 class SocialAccountCreateModel(BaseModel):
-    address: str
-    service: SocialAccountServiceReadModel
-    user: UserBaseModel
+    username: str
+    user_id: UUID

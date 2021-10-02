@@ -5,33 +5,38 @@ from app.core.users import current_active_user
 from app.models.socials import (
     SocialAccount,
     SocialAccountCreateModel,
+    SocialAccountListModel,
     SocialAccountModel,
-    SocialAccountService,
-    SocialAccountServiceCreateModel,
-    SocialAccountServiceModel,
+    SocialNetwork,
+    SocialNetworkCreateModel,
+    SocialNetworkModel,
 )
+from app.models.users import User
 
-service_router = TortoiseCRUDRouter(
-    schema=SocialAccountServiceModel,
-    create_schema=SocialAccountServiceCreateModel,
-    db_model=SocialAccountService,
+social_network_router = TortoiseCRUDRouter(
+    schema=SocialNetworkModel,
+    create_schema=SocialNetworkCreateModel,
+    update_schema=SocialNetworkCreateModel,
+    db_model=SocialNetwork,
     dependencies=[Depends(current_active_user)],
     get_one_route=False,
+    delete_one_route=False,
     delete_all_route=False,
     prefix="/socialnetwork",
 )
 
-account_router = TortoiseCRUDRouter(
-    schema=SocialAccountModel,
-    create_schema=SocialAccountCreateModel,
-    db_model=SocialAccount,
-    dependencies=[Depends(current_active_user)],
-    delete_all_route=False,
-    prefix="/socialaccount",
-)
+
+@social_network_router.get("/{network_id}", response_model=SocialAccountListModel)
+async def get_social_accounts(network_id: int):
+    network = await SocialNetwork.get(id=network_id)
+    return await SocialAccountListModel.from_queryset(network.accounts.all())  # type: ignore
 
 
-@account_router.post("", response_model=SocialAccountModel)
-async def create_social_account(social_account: SocialAccountCreateModel):
-    # TODO: create account using logged in user
-    pass
+@social_network_router.post("/{network_id}/account", response_model=SocialAccountModel)
+async def add_social_account(network_id: int, account_data: SocialAccountCreateModel):
+    network = await SocialNetwork.get(id=network_id)
+    user = await User.get(id=account_data.user_id)
+    social_account = await SocialAccount.create(
+        user=user, network=network, username=account_data.username
+    )
+    return await SocialAccountModel.from_tortoise_orm(social_account)
