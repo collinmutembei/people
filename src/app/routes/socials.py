@@ -5,7 +5,6 @@ from app.core.users import current_active_user
 from app.models.socials import (
     SocialAccount,
     SocialAccountCreateModel,
-    SocialAccountListModel,
     SocialAccountModel,
     SocialNetwork,
     SocialNetworkCreateModel,
@@ -26,15 +25,11 @@ social_network_router = TortoiseCRUDRouter(
 )
 
 
-@social_network_router.get("/{network_id}", response_model=SocialAccountListModel)
-async def get_social_accounts(network_id: int):
-    network = await SocialNetwork.get(id=network_id)
-    return await SocialAccountListModel.from_queryset(network.accounts.all())  # type: ignore
-
-
-@social_network_router.post("/{network_id}/account", response_model=SocialAccountModel)
-async def add_social_account(network_id: int, account_data: SocialAccountCreateModel):
-    network = await SocialNetwork.get(id=network_id)
+@social_network_router.post("/{network_name}", response_model=SocialAccountModel)
+async def add_social_network_profile(
+    network_name: str, account_data: SocialAccountCreateModel
+):
+    network = await SocialNetwork.get(id=network_name)
     user = await User.get(id=account_data.user_id)
     social_account = await SocialAccount.create(
         user=user, network=network, username=account_data.username

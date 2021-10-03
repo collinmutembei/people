@@ -16,4 +16,4 @@ db-shell:
 git-hook:
 	@pre-commit install -t pre-commit -t pre-push
 reset-migrations:
-	@cd src && aerich init -t app.settings.orm.TORTOISE_ORM && aerich init-db
+	@cd src && rm -rf aerich.ini migrations && aerich init -t app.settings.orm.TORTOISE_ORM && aerich init-db
