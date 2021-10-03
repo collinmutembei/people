@@ -1,13 +1,19 @@
-MIGRATION_MESSAGE ?= "init"
+MIGRATION_MESSAGE ?= "initial"
 
 server:
-	@cd src && uvicorn app.api:api --host 0.0.0.0 --port 8000 --reload
+	@cd src && uvicorn app.main:api --host 0.0.0.0 --port 8000 --reload
 migration:
-	@cd src && alembic revision --autogenerate -m ${MIGRATION_MESSAGE}
+	@cd src && aerich migrate --name ${MIGRATION_MESSAGE}
 migrate:
-	@cd src && alembic upgrade head
+	@cd src && aerich upgrade
 checks:
 	@pre-commit run --all
 	@pytest --cov=src
-git-hooks:
+shell:
+	@cd src && ipython
+db-shell:
+	@cd src && TORTOISE_ORM=app.settings.orm.TORTOISE_ORM tortoise-cli shell
+git-hook:
 	@pre-commit install -t pre-commit -t pre-push
+reset-migrations:
+	@cd src && aerich init -t app.settings.orm.TORTOISE_ORM && aerich init-db
