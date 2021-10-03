@@ -15,3 +15,5 @@ db-shell:
 	@cd src && TORTOISE_ORM=app.settings.orm.TORTOISE_ORM tortoise-cli shell
 git-hook:
 	@pre-commit install -t pre-commit -t pre-push
+reset-migrations:
+	@cd src && aerich init -t app.settings.orm.TORTOISE_ORM && aerich init-db
