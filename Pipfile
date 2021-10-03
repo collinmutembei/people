@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "==0.68.1"
+uvicorn = "==0.15.0"
+tortoise-orm = {version = "==0.17.7", extras = ["asyncpg"]}
+fastapi-users = {version = "==8.1.0", extras = ["tortoise-orm"]}
+aerich = "==0.5.8"
+python-decouple = "==3.4"
+fastapi-crudrouter = "==0.8.3"
+pydantic = "==1.8.2"
+loguru = "==0.5.3"
+
+[dev-packages]
+ipdb = "*"
+pytest = "*"
+pytest-cov = "*"
+requests = "*"
+pre-commit = "*"
+tortoise-cli = "*"
+asynctest = "*"
+
+[requires]
+python_version = "3.9"

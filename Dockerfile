@@ -11,7 +11,7 @@ LABEL org.opencontainers.image.title="collinmutembei/api" \
   org.opencontainers.image.licenses="MIT"
 
 # set working directory
-WORKDIR /usr/src/app
+WORKDIR /usr/api
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -24,11 +24,11 @@ RUN apt-get update \
   && apt-get clean
 
 # install python dependencies
-RUN pip install --upgrade pip
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip pipenv
+COPY Pipfile Pipfile.lock ./
+RUN pipenv install --system --deploy
 
 # add app
-COPY . .
+COPY src .
 
-CMD uvicorn app.api:api --host 0.0.0.0 --port $PORT
+CMD uvicorn app.main:api --host 0.0.0.0 --port $PORT
