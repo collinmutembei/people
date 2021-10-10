@@ -22,6 +22,7 @@ requests = "*"
 pre-commit = "*"
 tortoise-cli = "*"
 asynctest = "*"
+jsf = "*"
 
 [requires]
 python_version = "3.9"
