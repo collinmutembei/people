@@ -13,16 +13,6 @@ class SocialAccount(TimestampMixin, models.Model):
     network = fields.ForeignKeyField("models.SocialNetwork", related_name="accounts")
     user = fields.ForeignKeyField("models.User", related_name="social_accounts")
 
-    @property
-    async def url(self) -> str:
-        from app.utils import get_account_url  # noqa
-
-        social_network = await self.network
-        return get_account_url(social_network, self)
-
-    async def __str__(self):
-        return await self.url
-
     class Meta:
         unique_together = (("username", "network"),)
 
