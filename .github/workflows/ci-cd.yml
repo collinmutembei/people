@@ -53,6 +53,10 @@ jobs:
         run: |
           pipenv install --deploy --dev
 
+      - name: Apply migrations
+        run: |
+          pipenv run aerich upgrade
+
       - name: Run Linters and Checks
         run: |
           pipenv run pre-commit run --all
