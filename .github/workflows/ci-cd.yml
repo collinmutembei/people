@@ -9,6 +9,7 @@ on:
 
 env:
   DATABASE_URL: "postgres://postgres:postgres@postgres:5432/test"
+  TORTOISE_TEST_DB: "postgres://postgres:postgres@postgres:5432/test_{}"
 
 jobs:
   checks:

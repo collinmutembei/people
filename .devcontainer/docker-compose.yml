@@ -31,6 +31,7 @@ services:
 
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
+      TORTOISE_TEST_DB: postgres://postgres:postgres@postgres:5432/test_{}
       DEBUG: 1
 
   db:
