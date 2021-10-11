@@ -1,4 +1,5 @@
 from decouple import config
+from tortoise import Tortoise
 
 from app.settings.base import AppSettings
 
@@ -37,3 +38,5 @@ TORTOISE_ORM = {
         "models": {**orm_config.modules, "default_connection": "default"},
     },
 }
+
+Tortoise.init_models(TORTOISE_ORM["apps"]["models"]["models"], "models")

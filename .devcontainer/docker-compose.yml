@@ -2,6 +2,7 @@ version: '3'
 
 services:
   app:
+    container_name: people-api
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
@@ -20,8 +21,8 @@ services:
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
 
-    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    network_mode: service:db
+    # Runs app on the same network as the redis container, allows "forwardPorts" in devcontainer.json function.
+    network_mode: service:redis
 
     # Uncomment the next line to use a non-root user for all processes.
     # user: vscode
@@ -29,23 +30,22 @@ services:
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
-      TORTOISE_TEST_DB: postgres://postgres:postgres@postgres:5432/test_{}
-      DEBUG: 1
+    # environment:
+    #   DATABASE_URL: sqlite:///tmp/people.db
+    #   TORTOISE_TEST_DB: sqlite:///tmp/test-{}.sqlite
+    #   DEBUG: 1
 
-  db:
-    image: postgres:latest
+  redis:
+    image: redis:latest
+    container_name: redis
     restart: unless-stopped
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
-      POSTGRES_PASSWORD: postgres
-
-    # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  postgres-data:
+  redis-data:

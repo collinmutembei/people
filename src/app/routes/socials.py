@@ -29,7 +29,7 @@ social_network_router = TortoiseCRUDRouter(
 async def add_social_network_profile(
     network_name: str, account_data: SocialAccountCreateModel
 ):
-    network = await SocialNetwork.get(id=network_name)
+    network = await SocialNetwork.get(name=network_name)
     user = await User.get(id=account_data.user_id)
     social_account = await SocialAccount.create(
         user=user, network=network, username=account_data.username

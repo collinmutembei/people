@@ -17,10 +17,11 @@ WORKDIR /usr/api
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PORT 8000
+ENV DATABASE_URL sqlite:///tmp/people.db
 
 # install system dependencies
 RUN apt-get update \
-  && apt-get -y install gcc postgresql \
+  && apt-get -y install gcc sqlite3 \
   && apt-get clean
 
 # install python dependencies
