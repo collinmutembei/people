@@ -9,6 +9,8 @@ migrate:
 checks:
 	@pre-commit run --all
 	@pytest --cov=src
+env:
+	@cp .env.example .env
 shell:
 	@cd src && ipython
 db-shell:
