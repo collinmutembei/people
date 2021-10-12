@@ -8,8 +8,8 @@ on:
       - main
 
 env:
-  DATABASE_URL: postgres://postgres:postgres@postgres:5432/test_{}
-  APP_ENV: live
+  DATABASE_URL: postgres://postgres:postgres@postgres:5432/test
+  APP_ENV: dev
 
 jobs:
   checks:
@@ -53,10 +53,6 @@ jobs:
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
           pipenv install --deploy --dev
-
-      - name: Apply migrations
-        run: |
-          pipenv run aerich upgrade
 
       - name: Run Linters and Checks
         run: |
