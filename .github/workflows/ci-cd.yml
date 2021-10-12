@@ -8,13 +8,26 @@ on:
       - main
 
 env:
-  TORTOISE_TEST_DB: sqlite:///tmp/test-{}.sqlite
-  DEBUG: 1
+  DATABASE_URL: postgres://postgres:postgres@postgres:5432/test_{}
+  APP_ENV: live
 
 jobs:
   checks:
     runs-on: ubuntu-latest
     container: python:3.9
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - uses: actions/checkout@v2
@@ -40,6 +53,10 @@ jobs:
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
           pipenv install --deploy --dev
+
+      - name: Apply migrations
+        run: |
+          pipenv run aerich upgrade
 
       - name: Run Linters and Checks
         run: |

@@ -8,7 +8,7 @@ migrate:
 	@cd src && aerich upgrade
 checks:
 	@pre-commit run --all
-	@pytest --cov=src
+	# @pytest --cov=src
 env:
 	@cp .env.example .env
 shell:

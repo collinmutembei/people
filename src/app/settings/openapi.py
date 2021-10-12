@@ -1,4 +1,4 @@
-from app.settings.base import AppSettings
+from app.settings.base import AppSettings, app_config
 
 OPENAPI_API_NAME = "People"
 OPENAPI_API_VERSION = "0.0.1"
@@ -13,7 +13,7 @@ class OpenAPISettings(AppSettings):
     @classmethod
     def generate(cls):
         return OpenAPISettings(
-            name=OPENAPI_API_NAME,
+            name=f"{OPENAPI_API_NAME}:{app_config.app_env}",
             version=OPENAPI_API_VERSION,
             description=OPENAPI_API_DESCRIPTION,
         )

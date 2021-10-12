@@ -1,14 +1,13 @@
 from decouple import config
+from pydantic import BaseSettings
 from tortoise import Tortoise
 
-from app.settings.base import AppSettings
+from app.settings.base import AppEnv, app_config
 
 DB_MODELS = ["app.models.users", "app.models.socials", "aerich.models"]
 
-DEBUG = config("DEBUG", default=False, cast=bool)
 
-
-class ORMSettings(AppSettings):
+class ORMSettings(BaseSettings):
     """Tortoise-ORM settings"""
 
     db_url: str
@@ -18,13 +17,17 @@ class ORMSettings(AppSettings):
 
     @classmethod
     def generate(cls):
-        db_url = config("DATABASE_URL", default="sqlite://:memory:")
+        if app_config.app_env == AppEnv.LIVE:
+            db_url = config("DATABASE_URL")
+        elif app_config.app_env == AppEnv.DEV:
+            db_url = config("DATABASE_URL", default="sqlite:///tmp/people.db")
+
         modules = {"models": DB_MODELS}
         return ORMSettings(
             db_url=db_url,
             modules=modules,
-            generate_schemas=True if DEBUG else False,
-            add_exception_handlers=True if DEBUG else False,
+            generate_schemas=True if app_config.app_env == AppEnv.DEV else False,
+            add_exception_handlers=True if app_config.app_env == AppEnv.DEV else False,
         )
 
 
