@@ -32,7 +32,7 @@ services:
 
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
-      APP_ENV: "dev"
+      APP_ENV: dev
 
   db:
     image: postgres:latest

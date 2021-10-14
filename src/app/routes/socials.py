@@ -19,10 +19,22 @@ social_network_router = TortoiseCRUDRouter(
     db_model=SocialNetwork,
     dependencies=[Depends(current_active_user)],
     get_one_route=False,
+    update_route=False,
     delete_one_route=False,
     delete_all_route=False,
     prefix="/socialnetwork",
+    tags=["socialnetwork"],
 )
+
+
+@social_network_router.put("/{network_name}", response_model=SocialNetworkModel)
+async def update_social_network(
+    network_name: str, updated_network: SocialNetworkCreateModel  # type: ignore
+):
+    network = await SocialNetwork.filter(name=network_name).update(
+        **updated_network.dict(exclude_unset=True)  # type: ignore
+    )
+    return await SocialNetworkModel.from_queryset_single(network)  # type: ignore
 
 
 @social_network_router.post("/{network_name}", response_model=SocialAccountModel)
