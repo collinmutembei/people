@@ -47,7 +47,7 @@
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [8000, 5432, 6379],
+	"forwardPorts": [8000, 5432, 6379, 1025, 8025],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "pipenv install --system --dev",

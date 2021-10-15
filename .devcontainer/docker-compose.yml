@@ -32,7 +32,7 @@ services:
 
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
-      APP_ENV: dev
+      APP_ENV: 🛠
 
   db:
     image: postgres:latest
@@ -64,6 +64,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog
+    restart: unless-stopped
+    network_mode: service:db
 
 volumes:
   redis-data:

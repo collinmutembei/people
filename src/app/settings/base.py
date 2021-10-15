@@ -9,12 +9,12 @@ class AppEnv(str, Enum):
     Change app settings dynamically based on environment
     """
 
-    DEV = "dev"
-    LIVE = "live"
+    DEV = "🛠"
+    PROD = "🌍"
 
 
 class AppSettings(BaseSettings):
-    app_env: AppEnv = config("APP_ENV", default=AppEnv.LIVE)
+    app_env: AppEnv = config("APP_ENV", default=AppEnv.PROD)
 
     @classmethod
     def generate(cls):

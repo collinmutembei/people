@@ -17,7 +17,7 @@ class ORMSettings(BaseSettings):
 
     @classmethod
     def generate(cls):
-        if app_config.app_env == AppEnv.LIVE:
+        if app_config.app_env == AppEnv.PROD:
             db_url = config("DATABASE_URL")
         elif app_config.app_env == AppEnv.DEV:
             db_url = config("DATABASE_URL", default="sqlite:///tmp/people.db")

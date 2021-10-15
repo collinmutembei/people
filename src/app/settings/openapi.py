@@ -10,16 +10,16 @@ OPENAPI_API_DESCRIPTION = "You know, for people"
 
 DEV_SERVER = Server(
     url="http://localhost:8000",
-    description="dev server",
+    description="local server",
     variables={},
 )
 LIVE_SERVER = Server(
-    url="https://{server}/api/people",
-    description="live server",
+    url="https://{server}/v1/people",
+    description="online server",
     variables={
         "server": ServerVariable(
-            enum=["stg.solublecode.api", "prd.solublecode.api"],
-            default="prd.solublecode.api",
+            enum=["staging.solublecode.api", "solublecode.api"],
+            default="staging.solublecode.api",
         )
     },
 )
@@ -34,7 +34,7 @@ class OpenAPISettings(AppSettings):
     @classmethod
     def generate(cls):
         return OpenAPISettings(
-            name=f"{OPENAPI_API_NAME}:{app_config.app_env}",
+            name=f"{app_config.app_env} {OPENAPI_API_NAME}",
             version=OPENAPI_API_VERSION,
             description=OPENAPI_API_DESCRIPTION,
             servers=[DEV_SERVER, LIVE_SERVER],
