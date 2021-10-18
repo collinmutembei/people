@@ -4,6 +4,8 @@ from typing import Any, Dict, List
 from fastapi_mail import ConnectionConfig, FastMail, MessageSchema
 from pydantic import BaseModel, EmailStr
 
+ACCOUNT_VERIFICATION_EMAIL_SUBJECT = "Account verification token"
+
 
 class EmailSchema(BaseModel):
     email: List[EmailStr]
@@ -21,14 +23,14 @@ conf = ConnectionConfig(
     TEMPLATE_FOLDER=Path(__file__).parent / "templates",
 )
 
+fm = FastMail(conf)
+
 
 async def send_verification_token(email: EmailSchema):
 
     message = MessageSchema(
-        subject="Account verification token",
+        subject=ACCOUNT_VERIFICATION_EMAIL_SUBJECT,
         recipients=email.dict().get("email"),
         template_body=email.dict().get("body"),
     )
-
-    fm = FastMail(conf)
     await fm.send_message(message, template_name="verify_token_template.html")
