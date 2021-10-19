@@ -9,6 +9,7 @@ from app.core.users import (
     fastapi_users,
     github_oauth_client,
     jwt_authentication,
+    linkedin_oauth_client,
 )
 from app.routes.auth import router as AuthRouter
 from app.routes.profiles import router as SocialProfileRouter
@@ -35,11 +36,19 @@ api.include_router(
     prefix="/auth/jwt",
     tags=["auth"],
 )
-
-api.include_router(AuthRouter, prefix="/auth/jwt", tags=["auth"])
+api.include_router(
+    fastapi_users.get_verify_router(),
+    prefix="/auth",
+    tags=["auth"],
+)
 api.include_router(
     fastapi_users.get_oauth_router(github_oauth_client, SECRET),
     prefix="/auth/github",
+    tags=["auth"],
+)
+api.include_router(
+    fastapi_users.get_oauth_router(linkedin_oauth_client, SECRET),
+    prefix="/auth/linkedin",
     tags=["auth"],
 )
 api.include_router(
@@ -47,11 +56,7 @@ api.include_router(
     prefix="/auth",
     tags=["auth"],
 )
-api.include_router(
-    fastapi_users.get_verify_router(),
-    prefix="/auth",
-    tags=["auth"],
-)
+api.include_router(AuthRouter, prefix="/auth/jwt", tags=["auth"])
 api.include_router(
     fastapi_users.get_users_router(requires_verification=True),
     prefix="/users",

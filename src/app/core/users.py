@@ -6,6 +6,7 @@ from fastapi_users import BaseUserManager, FastAPIUsers
 from fastapi_users.authentication import JWTAuthentication
 from fastapi_users.db import TortoiseUserDatabase
 from httpx_oauth.clients.github import GitHubOAuth2
+from httpx_oauth.clients.linkedin import LinkedInOAuth2
 from loguru import logger
 
 from app.core.email import EmailSchema, send_verification_token
@@ -16,8 +17,13 @@ SECRET = config("SECRET", default="7bb9f5050b304ca37d2e60d0e3a9d2bf23e859be")
 JWT_LIFETIME_SECONDS = 3600
 
 github_oauth_client = GitHubOAuth2(
-    config("CLIENT_ID", default="c9fae8307299c7a3d7e8"),
-    config("CLIENT_SECRET", default="ece626bfedc5a63c10fa83d5d54f0d5f9bc904c4"),
+    config("GITHUB_CLIENT_ID"),
+    config("GITHUB_CLIENT_SECRET"),
+)
+
+linkedin_oauth_client = LinkedInOAuth2(
+    config("LINKEDIN_CLIENT_ID"),
+    config("LINKEIN_CLIENT_SECRET"),
 )
 
 

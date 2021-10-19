@@ -14,23 +14,19 @@ DEV_SERVER = Server(
     variables={},
 )
 LIVE_SERVER = Server(
-    url="https://{server}/v1/people",
-    description="online server",
+    url="https://{server}/api/v1/people",
+    description="live server",
     variables={
         "server": ServerVariable(
-            enum=["staging.solublecode.api", "solublecode.api"],
-            default="staging.solublecode.api",
+            enum=["staging.solublecode.dev", "solublecode.dev"],
+            default="staging.solublecode.dev",
         )
     },
 )
 GITHUB_SERVER = Server(
     url="https://{subdomain}.githubpreview.dev",
-    description="github codespace server",
-    variables={
-        "subdomain": ServerVariable(
-            default="collinmutembei-api-people-qv9pgvqrh5pj-8000",
-        )
-    },
+    description="github codespaces",
+    variables={"subdomain": ServerVariable(default="")},
 )
 
 

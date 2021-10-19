@@ -19,8 +19,8 @@ def test_register_user(client):
     response = client.post("/auth/register", json=user)
     assert response.status_code == 201
     assert not response.json()["is_verified"]
-    assert response.json()["name"] == user["name"]
-    assert response.json()["email"] == user["email"]
+    assert response.json().get("name") == user.get("name")
+    assert response.json().get("email") == user.get("email")
 
 
 def test_login_jwt_not_verified(client):

@@ -10,6 +10,10 @@ on:
 env:
   DATABASE_URL: postgres://postgres:postgres@postgres:5432/test
   APP_ENV: 🛠
+  GITHUB_CLIENT_ID: test
+  GITHUB_CLIENT_SECRET: test
+  LINKEDIN_CLIENT_ID: test
+  LINKEIN_CLIENT_SECRET: test
 
 jobs:
   checks:
