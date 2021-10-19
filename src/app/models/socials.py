@@ -30,6 +30,9 @@ class SocialAccount(TimestampMixin, models.Model):
     class Meta:
         unique_together = (("username", "network"),)
 
+    def __str__(self):
+        return f"https://{self.network.domain}{self.network.account_prefix}{self.username}"  # type: ignore
+
 
 SocialAccountModel = pydantic_model_creator(SocialAccount, name="SocialAccountModel")
 

@@ -23,6 +23,15 @@ LIVE_SERVER = Server(
         )
     },
 )
+GITHUB_SERVER = Server(
+    url="https://{subdomain}.githubpreview.dev",
+    description="github codespace server",
+    variables={
+        "subdomain": ServerVariable(
+            default="collinmutembei-api-people-qv9pgvqrh5pj-8000",
+        )
+    },
+)
 
 
 class OpenAPISettings(AppSettings):
@@ -37,7 +46,7 @@ class OpenAPISettings(AppSettings):
             name=f"{app_config.app_env} {OPENAPI_API_NAME}",
             version=OPENAPI_API_VERSION,
             description=OPENAPI_API_DESCRIPTION,
-            servers=[DEV_SERVER, LIVE_SERVER],
+            servers=[DEV_SERVER, LIVE_SERVER, GITHUB_SERVER],
         )
 
 

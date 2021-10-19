@@ -32,7 +32,6 @@ def email_html_parser() -> EmailHTMLParser:
 
 @pytest.fixture(scope="module")
 def client() -> Generator:
-    initializer(["app.models"])
     with TestClient(api) as c:
         yield c
 
