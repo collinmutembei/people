@@ -42,7 +42,6 @@ api.include_router(
     prefix="/auth/github",
     tags=["auth"],
 )
-
 api.include_router(
     fastapi_users.get_reset_password_router(),
     prefix="/auth",

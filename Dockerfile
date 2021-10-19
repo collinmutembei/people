@@ -21,7 +21,7 @@ ENV DATABASE_URL sqlite:///tmp/people.db
 
 # install system dependencies
 RUN apt-get update \
-  && apt-get -y install gcc sqlite3 \
+  && apt-get -y install gcc sqlite3 postgresql \
   && apt-get clean
 
 # install python dependencies
