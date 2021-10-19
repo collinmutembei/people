@@ -11,7 +11,7 @@ from app.core.users import (
     jwt_authentication,
 )
 from app.routes.auth import router as AuthRouter
-from app.routes.people import router as PeopleRouter
+from app.routes.profiles import router as SocialProfileRouter
 from app.routes.socials import social_network_router as SocialNetworkRouter
 from app.settings.openapi import openapi_config
 from app.settings.orm import orm_config
@@ -58,8 +58,9 @@ api.include_router(
     prefix="/users",
     tags=["users"],
 )
-api.include_router(PeopleRouter, prefix="/people", tags=["people"])
 api.include_router(SocialNetworkRouter)
+api.include_router(SocialProfileRouter, prefix="/socialprofile", tags=["socialprofile"])
+
 
 register_tortoise(api, **orm_config.dict())
 

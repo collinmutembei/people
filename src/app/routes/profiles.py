@@ -10,7 +10,7 @@ router = APIRouter()
 
 
 @router.get("", response_model=SocialAccountListModel)
-async def all_people(
+async def all_social_profiles(
     network_name: Optional[str] = "", user: UserDB = Depends(current_active_user)
 ):
     if network_name:
