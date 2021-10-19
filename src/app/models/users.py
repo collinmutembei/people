@@ -3,19 +3,19 @@ from typing import Optional
 from uuid import UUID
 
 from fastapi_users import models
-from fastapi_users.db import TortoiseBaseUserModel
+from fastapi_users.db import TortoiseBaseOAuthAccountModel, TortoiseBaseUserModel
 from pydantic import BaseModel
 from tortoise import fields
 from tortoise.contrib.pydantic import PydanticModel
 
 
 class UserBase(models.BaseUser):
-    name: str
+    name: Optional[str]
     birthdate: Optional[date]
 
 
 class UserCreate(models.BaseUserCreate):
-    name: str
+    name: Optional[str]
     birthdate: Optional[date]
 
 
@@ -25,7 +25,7 @@ class UserUpdate(models.BaseUserUpdate):
 
 
 class User(TortoiseBaseUserModel):
-    name = fields.CharField(max_length=50)
+    name = fields.CharField(max_length=50, null=True)
     birthdate = fields.DateField(null=True)
 
     @property
@@ -54,6 +54,10 @@ class UserDB(UserBase, models.BaseUserDB, PydanticModel):
     class Config:
         orm_mode = True
         orig_model = User
+
+
+class OAuthAccount(TortoiseBaseOAuthAccountModel):
+    user = fields.ForeignKeyField("models.User", related_name="oauth_accounts")
 
 
 class UserBaseModel(BaseModel):

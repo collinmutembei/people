@@ -6,10 +6,21 @@ CREATE TABLE IF NOT EXISTS "user" (
     "is_active" BOOL NOT NULL  DEFAULT True,
     "is_superuser" BOOL NOT NULL  DEFAULT False,
     "is_verified" BOOL NOT NULL  DEFAULT False,
-    "name" VARCHAR(50) NOT NULL,
+    "name" VARCHAR(50),
     "birthdate" DATE
 );
 CREATE INDEX IF NOT EXISTS "idx_user_email_1b4f1c" ON "user" ("email");
+CREATE TABLE IF NOT EXISTS "oauthaccount" (
+    "id" UUID NOT NULL  PRIMARY KEY,
+    "oauth_name" VARCHAR(255) NOT NULL,
+    "access_token" VARCHAR(255) NOT NULL,
+    "expires_at" INT,
+    "refresh_token" VARCHAR(255),
+    "account_id" VARCHAR(255) NOT NULL,
+    "account_email" VARCHAR(255) NOT NULL,
+    "user_id" UUID NOT NULL REFERENCES "user" ("id") ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS "idx_oauthaccoun_account_0f36a3" ON "oauthaccount" ("account_id");
 CREATE TABLE IF NOT EXISTS "socialnetwork" (
     "created_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
     "modified_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,

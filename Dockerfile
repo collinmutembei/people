@@ -1,10 +1,10 @@
 # pull official base image
-FROM python:3.9-slim-buster
+FROM python:3.10-slim-buster
 
-LABEL org.opencontainers.image.title="collinmutembei/api" \
-  org.opencontainers.image.description="REST API service" \
+LABEL org.opencontainers.image.title="collinmutembei/api-people" \
+  org.opencontainers.image.description="API service for people information" \
   org.opencontainers.image.url="https://collinmutembei.dev/projects/api-service-template" \
-  org.opencontainers.image.source="https://github.com/collinmutembei/api" \
+  org.opencontainers.image.source="https://github.com/collinmutembei/api-people" \
   org.opencontainers.image.revision="$COMMIT_ID" \
   org.opencontainers.image.version="$PROJECT_VERSION" \
   org.opencontainers.image.authors="Collin Mutembei (https://collinmutembei.dev)" \
@@ -17,10 +17,11 @@ WORKDIR /usr/api
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PORT 8000
+ENV DATABASE_URL sqlite:///tmp/people.db
 
 # install system dependencies
 RUN apt-get update \
-  && apt-get -y install gcc postgresql \
+  && apt-get -y install gcc sqlite3 postgresql \
   && apt-get clean
 
 # install python dependencies

@@ -8,12 +8,17 @@ on:
       - main
 
 env:
-  DATABASE_URL: "postgres://postgres:postgres@postgres:5432/test"
+  DATABASE_URL: postgres://postgres:postgres@postgres:5432/test
+  APP_ENV: 🛠
+  GITHUB_CLIENT_ID: test
+  GITHUB_CLIENT_SECRET: test
+  LINKEDIN_CLIENT_ID: test
+  LINKEIN_CLIENT_SECRET: test
 
 jobs:
   checks:
     runs-on: ubuntu-latest
-    container: python:3.9
+    container: python:3.10
 
     services:
       postgres:
@@ -30,11 +35,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
 
       - name: Install system dependencies
         run: apt-get install -y libpq-dev
