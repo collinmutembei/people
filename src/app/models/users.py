@@ -12,7 +12,7 @@ from tortoise.contrib.pydantic import PydanticModel
 class UserBase(models.BaseUser):
     name: Optional[str]
     birthdate: Optional[date]
-    metadata: Optional[Dict[str, Any]]
+    metadata: Optional[Dict[str, Any]] = {}
 
 
 class UserCreate(models.BaseUserCreate):
