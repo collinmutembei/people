@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9eff88de4b76282d8def7565c2915c8a1866df4071fc1e05063fa19abff817e7"
+            "sha256": "ad12d72277c670dee207e699d0e22d1b221142b51859311a708803edb8b89bae"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -254,11 +254,11 @@
                 "tortoise-orm"
             ],
             "hashes": [
-                "sha256:3cd1732f918db127da4c14c7634ba075904a0746f9bb1bdc499937a995d75994",
-                "sha256:4f656ac3621c2ad9999bc72283567f632928434a9459b6bca809be4392027f6e"
+                "sha256:0d087957dacda804241a79492e3d33c0497efc2582748dbfd263dbc97968d1ee",
+                "sha256:520b7ac419ca930d2d0436e3ce9a2f3816bfd4600e71c362d7edbf14e319a8b2"
             ],
             "index": "pypi",
-            "version": "==8.1.0"
+            "version": "==8.1.1"
         },
         "fastapi-users-db-tortoise": {
             "hashes": [
@@ -332,10 +332,10 @@
         },
         "makefun": {
             "hashes": [
-                "sha256:033eed65e2c1804fca84161a38d1fc8bb8650d32a89ac1c5dc7e54b2b2c2e88c",
-                "sha256:a19bddf07efb6bf92e3ccde5d593e49bc59001fd6c17cf7301d7a73a2647ae83"
+                "sha256:4d0e90ca3fdbdeb6a4a0891e2da7d4b8e80386e19e6db91ce29b8aa5c876ecfe",
+                "sha256:639ac01a68ddd76ab156ca435bcd89dab25c717fb09af23f1563dc26362b4dcc"
             ],
-            "version": "==1.11.3"
+            "version": "==1.12.1"
         },
         "markupsafe": {
             "hashes": [
@@ -468,11 +468,11 @@
         },
         "pyjwt": {
             "hashes": [
-                "sha256:934d73fbba91b0483d3857d1aff50e96b2a892384ee2c17417ed3203f173fca1",
-                "sha256:fba44e7898bbca160a2b2b501f492824fc8382485d3a6f11ba5d0c1937ce6130"
+                "sha256:a0b9a3b4e5ca5517cac9f1a6e9cd30bf1aa80be74fcdf4e28eded582ecfcfbae",
+                "sha256:b0ed5824c8ecc5362e540c65dc6247567db130c4226670bf7699aec92fb4dae1"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==2.1.0"
+            "version": "==2.2.0"
         },
         "pyparsing": {
             "hashes": [
