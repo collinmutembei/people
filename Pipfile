@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 fastapi = "==0.68.1"
 uvicorn = "==0.15.0"
-tortoise-orm = {version = "==0.17.7", extras = ["asyncpg"]}
+tortoise-orm = {version = "==0.17.8", extras = ["asyncpg"]}
 fastapi-users = {version = "==8.1.1", extras = ["oauth", "tortoise-orm"]}
 aerich = "==0.5.8"
 python-decouple = "==3.5"
