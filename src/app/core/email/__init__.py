@@ -27,21 +27,11 @@ conf = ConnectionConfig(
 fm = FastMail(conf)
 
 
-async def send_verification_token(email: EmailSchema):
+async def sender(email: EmailSchema, subject: str, template_name: str):
 
     message = MessageSchema(
-        subject=ACCOUNT_VERIFICATION_EMAIL_SUBJECT,
+        subject=subject,
         recipients=email.dict().get("email"),
         template_body=email.dict().get("body"),
     )
-    await fm.send_message(message, template_name="verify_token.html")
-
-
-async def send_password_reset_token(email: EmailSchema):
-
-    message = MessageSchema(
-        subject=PASSWORD_RESET_EMAIL_SUBJECT,
-        recipients=email.dict().get("email"),
-        template_body=email.dict().get("body"),
-    )
-    await fm.send_message(message, template_name="forgot_password.html")
+    await fm.send_message(message, template_name=f"{template_name}.html")

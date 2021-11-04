@@ -9,7 +9,12 @@ from httpx_oauth.clients.github import GitHubOAuth2
 from httpx_oauth.clients.linkedin import LinkedInOAuth2
 from loguru import logger
 
-from app.core.email import EmailSchema, send_verification_token, send_password_reset_token
+from app.core.email import (
+    ACCOUNT_VERIFICATION_EMAIL_SUBJECT,
+    PASSWORD_RESET_EMAIL_SUBJECT,
+    EmailSchema,
+    sender,
+)
 from app.db import get_user_db
 from app.models.users import UserBase, UserCreate, UserDB, UserUpdate
 
@@ -38,20 +43,24 @@ class UserManager(BaseUserManager[UserCreate, UserDB]):
     async def on_after_forgot_password(
         self, user: UserDB, token: str, request: Optional[Request] = None
     ):
-        await send_password_reset_token(
-            EmailSchema(
+        await sender(
+            email=EmailSchema(
                 email=[user.email], body={"username": user.name, "token": token}
-            )
+            ),
+            subject=PASSWORD_RESET_EMAIL_SUBJECT,
+            template_name="forgot_password",
         )
         logger.info(f"User {user.id} has forgot their password. Reset token: {token}")
 
     async def on_after_request_verify(
         self, user: UserDB, token: str, request: Optional[Request] = None
     ):
-        await send_verification_token(
-            EmailSchema(
+        await sender(
+            email=EmailSchema(
                 email=[user.email], body={"username": user.name, "token": token}
-            )
+            ),
+            subject=ACCOUNT_VERIFICATION_EMAIL_SUBJECT,
+            template_name="verify_token",
         )
         logger.info(
             f"Verification requested for user {user.id}. Verification token: {token}"

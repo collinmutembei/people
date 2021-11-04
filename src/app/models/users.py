@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Any, Optional, Dict
+from typing import Any, Dict, Optional
 from uuid import UUID
 
 from fastapi_users import models
