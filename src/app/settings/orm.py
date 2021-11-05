@@ -4,7 +4,12 @@ from tortoise import Tortoise
 
 from app.settings.base import AppEnv, app_config
 
-DB_MODELS = ["app.models.users", "app.models.socials", "aerich.models"]
+DB_MODELS = [
+    "app.models.users",
+    "app.models.socials",
+    "app.models.contacts",
+    "aerich.models",
+]
 
 
 class ORMSettings(BaseSettings):
