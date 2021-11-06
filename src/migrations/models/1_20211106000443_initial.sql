@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS "user" (
     "is_superuser" BOOL NOT NULL  DEFAULT False,
     "is_verified" BOOL NOT NULL  DEFAULT False,
     "name" VARCHAR(50),
-    "birthdate" DATE
+    "birthdate" DATE,
+    "metadata" JSONB NOT NULL
 );
 CREATE INDEX IF NOT EXISTS "idx_user_email_1b4f1c" ON "user" ("email");
 CREATE TABLE IF NOT EXISTS "oauthaccount" (
@@ -37,6 +38,12 @@ CREATE TABLE IF NOT EXISTS "socialaccount" (
     "network_id" INT NOT NULL REFERENCES "socialnetwork" ("id") ON DELETE CASCADE,
     "user_id" UUID NOT NULL REFERENCES "user" ("id") ON DELETE CASCADE,
     CONSTRAINT "uid_socialaccou_usernam_c7b09a" UNIQUE ("username", "network_id")
+);
+CREATE TABLE IF NOT EXISTS "contactsfile" (
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "name" VARCHAR(50) NOT NULL,
+    "uploaded_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+    "uploader_id" UUID NOT NULL REFERENCES "user" ("id") ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS "aerich" (
     "id" SERIAL NOT NULL PRIMARY KEY,
