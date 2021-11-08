@@ -13,7 +13,7 @@ python-decouple = "==3.5"
 fastapi-crudrouter = "==0.8.4"
 pydantic = "==1.8.2"
 loguru = "==0.5.3"
-httpx-oauth = "==0.3.7"
+httpx-oauth = "==0.3.8"
 fastapi-mail = "==1.0.1"
 
 [dev-packages]
