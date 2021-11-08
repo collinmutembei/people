@@ -14,6 +14,8 @@ env:
   GITHUB_CLIENT_SECRET: test
   LINKEDIN_CLIENT_ID: test
   LINKEIN_CLIENT_SECRET: test
+  MINIO_ACCESS_KEY: test
+  MINIO_SECRET_KEY: test
 
 jobs:
   checks:

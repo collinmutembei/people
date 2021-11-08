@@ -11,7 +11,7 @@ router = APIRouter()
 async def upload_contacts(
     contacts: UploadFile = File(...),
     user=Depends(fastapi_users.current_user(active=True)),
-    storage_client=Depends(get_storage_client()),
+    storage_client=Depends(get_storage_client),
 ):
     # TODO: Read CSV file and create users and social accounts
     contact_file_obj = await ContactsFile.create(
