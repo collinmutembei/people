@@ -33,6 +33,8 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
       APP_ENV: 🛠
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: password
 
   db:
     image: postgres:latest
