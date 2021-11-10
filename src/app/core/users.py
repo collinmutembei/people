@@ -27,8 +27,8 @@ github_oauth_client = GitHubOAuth2(
 )
 
 linkedin_oauth_client = LinkedInOAuth2(
-    config("LINKEDIN_CLIENT_ID"),
-    config("LINKEIN_CLIENT_SECRET"),
+    config("LINKEDIN_CLIENT_ID", default="abc"),
+    config("LINKEIN_CLIENT_SECRET", default="def"),
 )
 
 
