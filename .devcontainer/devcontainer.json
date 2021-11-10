@@ -47,10 +47,18 @@
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [8000, 5432, 6379, 1025, 8025, 9000],
+	"forwardPorts": [
+		8000, // api
+		5432, // postgres
+		6379, // redis
+		1025, // mailhog
+		8025, // mailhog-ui
+		9000, // minio
+		9001 // minio-console
+	],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pipenv install --system --dev",
+	"postCreateCommand": "pipenv install --system --dev && mc alias set local http://localhost:9000 minio password",
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"
