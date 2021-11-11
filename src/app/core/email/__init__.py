@@ -5,6 +5,7 @@ from fastapi_mail import ConnectionConfig, FastMail, MessageSchema
 from pydantic import BaseModel, EmailStr
 
 ACCOUNT_VERIFICATION_EMAIL_SUBJECT = "Account verification token"
+PASSWORD_RESET_EMAIL_SUBJECT = "Password reset token"
 
 
 class EmailSchema(BaseModel):
@@ -26,11 +27,11 @@ conf = ConnectionConfig(
 fm = FastMail(conf)
 
 
-async def send_verification_token(email: EmailSchema):
+async def sender(email: EmailSchema, subject: str, template_name: str):
 
     message = MessageSchema(
-        subject=ACCOUNT_VERIFICATION_EMAIL_SUBJECT,
+        subject=subject,
         recipients=email.dict().get("email"),
         template_body=email.dict().get("body"),
     )
-    await fm.send_message(message, template_name="verify_token_template.html")
+    await fm.send_message(message, template_name=f"{template_name}.html")

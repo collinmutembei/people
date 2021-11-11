@@ -12,6 +12,7 @@ from app.core.users import (
     linkedin_oauth_client,
 )
 from app.routes.auth import router as AuthRouter
+from app.routes.contacts import router as ContactsUploadRouter
 from app.routes.profiles import router as SocialProfileRouter
 from app.routes.socials import social_network_router as SocialNetworkRouter
 from app.settings.openapi import openapi_config
@@ -64,6 +65,7 @@ api.include_router(
 )
 api.include_router(SocialNetworkRouter)
 api.include_router(SocialProfileRouter, prefix="/socialprofile", tags=["socialprofile"])
+api.include_router(ContactsUploadRouter, prefix="/contacts", tags=["uploads"])
 
 
 register_tortoise(api, **orm_config.dict())

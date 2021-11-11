@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+from typing import Any, Dict, Optional
 from uuid import UUID
 
 from fastapi_users import models
@@ -12,6 +12,7 @@ from tortoise.contrib.pydantic import PydanticModel
 class UserBase(models.BaseUser):
     name: Optional[str]
     birthdate: Optional[date]
+    metadata: Optional[Dict[str, Any]] = {}
 
 
 class UserCreate(models.BaseUserCreate):
@@ -27,6 +28,7 @@ class UserUpdate(models.BaseUserUpdate):
 class User(TortoiseBaseUserModel):
     name = fields.CharField(max_length=50, null=True)
     birthdate = fields.DateField(null=True)
+    metadata = fields.JSONField()
 
     @property
     def age(self) -> Optional[int]:
