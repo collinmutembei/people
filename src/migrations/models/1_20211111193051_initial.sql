@@ -40,9 +40,10 @@ CREATE TABLE IF NOT EXISTS "socialaccount" (
     CONSTRAINT "uid_socialaccou_usernam_c7b09a" UNIQUE ("username", "network_id")
 );
 CREATE TABLE IF NOT EXISTS "contactsfile" (
+    "created_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+    "modified_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
     "id" SERIAL NOT NULL PRIMARY KEY,
     "name" VARCHAR(100) NOT NULL,
-    "uploaded_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
     "uploader_id" UUID NOT NULL REFERENCES "user" ("id") ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS "aerich" (
