@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from copy import deepcopy
+from typing import Optional
 from uuid import UUID
 
 import magic
@@ -51,17 +52,19 @@ class S3FileStorage(FileStorage):
 
     def upload_file(
         self, uploader_uuid: UUID, file_upload: UploadFile
-    ) -> ObjectWriteResult:
+    ) -> Optional[ObjectWriteResult]:
         self._prepare_bucket(self.FILE_UPLOAD_BUCKET_NAME)
         # Using deepcopy to ensure that the file.read operation
         # in _get_file_type does not close the file before upload
         filetype = self._get_file_type(deepcopy(file_upload.file))
-        uploaded_file = self.client.put_object(
-            bucket_name=self.FILE_UPLOAD_BUCKET_NAME,
-            object_name=f"{uploader_uuid.hex}/{file_upload.filename}",
-            data=file_upload.file,
-            length=-1,
-            part_size=5 * 1024 * 1024,
-            content_type=filetype,
-        )
-        return uploaded_file
+        if filetype == "application/csv":
+            uploaded_file = self.client.put_object(
+                bucket_name=self.FILE_UPLOAD_BUCKET_NAME,
+                object_name=f"{uploader_uuid.hex}/{file_upload.filename}",
+                data=file_upload.file,
+                length=-1,
+                part_size=5 * 1024 * 1024,
+                content_type=filetype,
+            )
+            return uploaded_file
+        return None
