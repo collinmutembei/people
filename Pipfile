@@ -17,6 +17,7 @@ httpx-oauth = "==0.3.7"
 fastapi-mail = "==1.0.1"
 python-rapidjson = "==1.5"
 minio = "==7.1.1"
+python-magic = "==0.4.24"
 
 [dev-packages]
 ipdb = "*"

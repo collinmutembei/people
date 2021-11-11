@@ -21,7 +21,7 @@ RUN pip install -U pip pipenv
 
 # [Optional] Uncomment this section to install additional OS packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends sqlite3
+    && apt-get -y install --no-install-recommends sqlite3 libmagic1
 
 # Install minio client
 RUN cd /usr/local/bin && curl https://dl.min.io/client/mc/release/linux-amd64/mc -o mc

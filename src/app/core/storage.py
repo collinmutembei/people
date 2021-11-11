@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
+from copy import deepcopy
 from uuid import UUID
 
+import magic
 from decouple import config
 from minio import Minio
 from minio.helpers import ObjectWriteResult
@@ -39,19 +41,27 @@ class S3FileStorage(FileStorage):
         )
 
     def _prepare_bucket(self, bucket_name: str):
+        """Creates bucket to store file when it does not exist"""
         if not self.client.bucket_exists(bucket_name):
             self.client.make_bucket(bucket_name)
+
+    def _get_file_type(self, file):
+        """Returns the mimetype of file"""
+        return magic.from_buffer(file.read(2048), mime=True)
 
     def upload_file(
         self, uploader_uuid: UUID, file_upload: UploadFile
     ) -> ObjectWriteResult:
         self._prepare_bucket(self.FILE_UPLOAD_BUCKET_NAME)
+        # Using deepcopy to ensure that the file.read operation
+        # in _get_file_type does not close the file before upload
+        filetype = self._get_file_type(deepcopy(file_upload.file))
         uploaded_file = self.client.put_object(
             bucket_name=self.FILE_UPLOAD_BUCKET_NAME,
             object_name=f"{uploader_uuid.hex}/{file_upload.filename}",
             data=file_upload.file,
             length=-1,
-            part_size=10 * 1024 * 1024,
-            content_type="application/csv",
+            part_size=5 * 1024 * 1024,
+            content_type=filetype,
         )
         return uploaded_file
