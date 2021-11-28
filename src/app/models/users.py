@@ -4,7 +4,7 @@ from uuid import UUID
 
 from fastapi_users import models
 from fastapi_users.db import TortoiseBaseOAuthAccountModel, TortoiseBaseUserModel
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from tortoise import fields
 from tortoise.contrib.pydantic import PydanticModel
 
@@ -18,6 +18,7 @@ class UserBase(models.BaseUser):
 class UserCreate(models.BaseUserCreate):
     name: Optional[str]
     birthdate: Optional[date]
+    email: Optional[EmailStr]
 
 
 class UserUpdate(models.BaseUserUpdate):
