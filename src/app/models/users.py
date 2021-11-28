@@ -4,24 +4,59 @@ from uuid import UUID
 
 from fastapi_users import models
 from fastapi_users.db import TortoiseBaseOAuthAccountModel, TortoiseBaseUserModel
-from pydantic import BaseModel, EmailStr
+from phonenumbers import (
+    NumberParseException,
+    PhoneNumberFormat,
+    PhoneNumberType,
+    format_number,
+    is_valid_number,
+    number_type,
+)
+from phonenumbers import parse as parse_phone_number
+from pydantic import BaseModel, EmailStr, constr, validator
 from tortoise import fields
 from tortoise.contrib.pydantic import PydanticModel
 
+MOBILE_NUMBER_TYPES = PhoneNumberType.MOBILE, PhoneNumberType.FIXED_LINE_OR_MOBILE
 
-class UserBase(models.BaseUser):
+
+class UserContactInfo(BaseModel):
+    email: Optional[EmailStr]
+    phone_number: constr(max_length=50, strip_whitespace=True) = None  # type: ignore
+
+    @validator("phone_number")
+    def check_phone_number(cls, v):
+        if v is None:
+            return v
+
+        try:
+            n = parse_phone_number(v, "KE")
+        except NumberParseException as e:
+            raise ValueError("Please provide a valid mobile phone number") from e
+
+        if not is_valid_number(n) or number_type(n) not in MOBILE_NUMBER_TYPES:
+            raise ValueError("Please provide a valid mobile phone number")
+
+        return format_number(
+            n,
+            PhoneNumberFormat.NATIONAL
+            if n.country_code == 254
+            else PhoneNumberFormat.INTERNATIONAL,
+        )
+
+
+class UserBase(models.BaseUser, UserContactInfo):  # type: ignore
     name: Optional[str]
     birthdate: Optional[date]
     metadata: Optional[Dict[str, Any]] = {}
 
 
-class UserCreate(models.BaseUserCreate):
+class UserCreate(models.BaseUserCreate, UserContactInfo):  # type: ignore
     name: Optional[str]
     birthdate: Optional[date]
-    email: Optional[EmailStr]
 
 
-class UserUpdate(models.BaseUserUpdate):
+class UserUpdate(models.BaseUserUpdate, UserContactInfo):  # type: ignore
     name: Optional[str]
     birthdate: Optional[date]
 
@@ -53,7 +88,7 @@ class User(TortoiseBaseUserModel):
         computed = ["age"]
 
 
-class UserDB(UserBase, models.BaseUserDB, PydanticModel):
+class UserDB(UserBase, models.BaseUserDB, PydanticModel):  # type: ignore
     class Config:
         orm_mode = True
         orig_model = User
