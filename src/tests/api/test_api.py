@@ -16,6 +16,7 @@ def test_docs(client):
 
 def test_register_user(client):
     user = JSF(UserCreate.schema()).generate()
+    user.update({"phone_number": "0711223344"})
     response = client.post("/auth/register", json=user)
     assert response.status_code == 201
     assert not response.json()["is_verified"]
@@ -25,6 +26,7 @@ def test_register_user(client):
 
 def test_login_jwt_not_verified(client):
     user = JSF(UserCreate.schema()).generate()
+    user.update({"phone_number": "0711223344"})
     client.post(
         "/auth/register",
         json=user,
@@ -42,6 +44,7 @@ def test_login_jwt_not_verified(client):
 def test_login_jwt_verified(client, email_html_parser):
     # Create user account
     user = JSF(UserCreate.schema()).generate()
+    user.update({"phone_number": "0711223344"})
     client.post(
         "/auth/register",
         json=user,
