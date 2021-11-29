@@ -37,12 +37,7 @@ class UserContactInfo(BaseModel):
         if not is_valid_number(n) or number_type(n) not in MOBILE_NUMBER_TYPES:
             raise ValueError("Please provide a valid mobile phone number")
 
-        return format_number(
-            n,
-            PhoneNumberFormat.NATIONAL
-            if n.country_code == 254
-            else PhoneNumberFormat.INTERNATIONAL,
-        )
+        return format_number(n, PhoneNumberFormat.INTERNATIONAL)
 
 
 class UserBase(models.BaseUser, UserContactInfo):  # type: ignore
