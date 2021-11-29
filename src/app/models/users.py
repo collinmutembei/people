@@ -22,7 +22,7 @@ MOBILE_NUMBER_TYPES = PhoneNumberType.MOBILE, PhoneNumberType.FIXED_LINE_OR_MOBI
 
 class UserContactInfo(BaseModel):
     email: Optional[EmailStr]
-    phone_number: constr(max_length=50, strip_whitespace=True) = None  # type: ignore
+    phone_number: constr(max_length=20, strip_whitespace=True) = None  # type: ignore
 
     @validator("phone_number")
     def check_phone_number(cls, v):
@@ -63,6 +63,7 @@ class UserUpdate(models.BaseUserUpdate, UserContactInfo):  # type: ignore
 
 class User(TortoiseBaseUserModel):
     name = fields.CharField(max_length=50, null=True)
+    phone_number = fields.CharField(max_length=20, null=True)
     birthdate = fields.DateField(null=True)
     metadata = fields.JSONField()
 
