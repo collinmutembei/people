@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS "user" (
     "is_superuser" BOOL NOT NULL  DEFAULT False,
     "is_verified" BOOL NOT NULL  DEFAULT False,
     "name" VARCHAR(50),
+    "phone_number" VARCHAR(20),
     "birthdate" DATE,
     "metadata" JSONB NOT NULL
 );
