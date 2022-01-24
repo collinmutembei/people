@@ -8,7 +8,7 @@ fastapi = "==0.68.2"
 uvicorn = "==0.15.0"
 tortoise-orm = {version = "==0.17.8", extras = ["asyncpg"]}
 fastapi-users = {version = "==8.1.1", extras = ["oauth", "tortoise-orm"]}
-aerich = "==0.5.8"
+aerich = "==0.6.2"
 python-decouple = "==3.5"
 fastapi-crudrouter = "==0.8.4"
 pydantic = "==1.8.2"
