@@ -1053,11 +1053,11 @@
         },
         "jsf": {
             "hashes": [
-                "sha256:9f13fa01d0c2ea5d15487b2da225176797ff6e710b7ca3903b982cd537b9d046",
-                "sha256:d38e45adbf60c985255e509cf37ae25e23f110495cad4419813f7c0e442acfb1"
+                "sha256:05238c4a9da0b288f7ad4c5ca32a5df9326c939cb307cb9aa2ffd694ecf0d293",
+                "sha256:81fc0f3fb8deec47688ce9057296bc2c20bed31bb4876e122c0d8c0e88958f5e"
             ],
             "index": "pypi",
-            "version": "==0.3.2"
+            "version": "==0.4.0"
         },
         "jsonschema": {
             "hashes": [
