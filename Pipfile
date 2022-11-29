@@ -10,7 +10,7 @@ tortoise-orm = {version = "==0.17.8", extras = ["asyncpg"]}
 fastapi-users = {version = "==8.1.1", extras = ["oauth", "tortoise-orm"]}
 aerich = "==0.6.3"
 python-decouple = "==3.6"
-fastapi-crudrouter = "==0.8.4"
+fastapi-crudrouter = "==0.8.5"
 pydantic = "==1.9.1"
 loguru = "==0.6.0"
 httpx-oauth = "==0.3.8"
