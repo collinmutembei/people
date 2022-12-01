@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "474687d635f8932a1812ed63fe402e93873862b854c44b63fd737df144fb5f44"
+            "sha256": "fa20d628847aefea875a96c54b65131f35a55a878b28996dd8620402e6f35a6a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -18,11 +18,11 @@
     "default": {
         "aerich": {
             "hashes": [
-                "sha256:96ac087922048470687264125cb9dfeaade982219c78e6a9b91a0fb67eaa1cd1",
-                "sha256:d45f98214ed54b8ec9be949df264c5b0b9e8b79d8f8ba9e68714675bc81a5574"
+                "sha256:501f6598ae51e3ce19b1bfc21ff365f582e7447e6aa5215629451c40341d6eb8",
+                "sha256:ca1c46e777c448c8344961bb591ee8cc7bfcb2fc7527bea4da43647b5fbf8fbe"
             ],
             "index": "pypi",
-            "version": "==0.6.3"
+            "version": "==0.7.1"
         },
         "aiosmtplib": {
             "hashes": [
@@ -987,11 +987,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:20d090e661bbe88a5d801ea5eb3d853564940352120c84c9a14968847aca2893",
-                "sha256:b95b2423ef18d17dcd5977732a0bf0fbbde4937f10dce24ff804581f7f3ca4e9"
+                "sha256:2d5443724f640ce07658ca8ca8bbd40d26b58914e63eec6549727869aa67e2cc",
+                "sha256:c2a2ff9dd8dfd991109b517ab98d5cb465e857acb45f6b643a0e284a9eb2cc76"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==15.3.3"
+            "version": "==15.3.4"
         },
         "filelock": {
             "hashes": [
@@ -1378,7 +1378,7 @@
                 "sha256:088bf00f9327c71e549bc2f86567d3320df5d89667f009ce1c16568976068ef7",
                 "sha256:1b4df5c8365218f3852c507451920ccad606c80b0acb4e67508e50ba9b5d2632"
             ],
-            "markers": "python_version >= '3.6' and python_version < '4'",
+            "markers": "python_version >= '3.6' and python_version < '4.0'",
             "version": "==6.2.0"
         },
         "stack-data": {
