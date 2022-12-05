@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "==0.68.2"
+fastapi = "==0.70.1"
 uvicorn = "==0.20.0"
 tortoise-orm = {version = "==0.17.8", extras = ["asyncpg"]}
 fastapi-users = {version = "==8.1.1", extras = ["oauth", "tortoise-orm"]}
