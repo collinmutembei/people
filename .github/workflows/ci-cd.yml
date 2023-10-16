@@ -1,4 +1,4 @@
-name: Continuos Integration + Delivery Action
+name: CI/CD
 
 on:
   pull_request:
