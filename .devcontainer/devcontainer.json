@@ -51,8 +51,8 @@
 		8000, // api
 		5432, // postgres
 		6379, // redis
-		1025, // mailhog
-		8025, // mailhog-ui
+		1025, // mailpit
+		8025, // mailpit-ui
 		9000, // minio
 		9001 // minio-console
 	],
