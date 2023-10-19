@@ -16,6 +16,7 @@ env:
   LINKEIN_CLIENT_SECRET: test
   MINIO_ACCESS_KEY: test
   MINIO_SECRET_KEY: test
+  PIPENV_VENV_IN_PROJECT: 1
 
 jobs:
   checks:
@@ -47,13 +48,13 @@ jobs:
       - id: cache-pipenv
         uses: actions/cache@v3
         with:
-          path: ~/.local/share/virtualenvs
+          path: .venv
           key: pipenv-${{ hashFiles('**/Pipfile.lock') }}
 
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
-          pipenv install --system --deploy --dev
+          pipenv install --deploy --dev
 
       - name: Run Linters and Checks
         run: |
