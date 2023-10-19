@@ -20,7 +20,7 @@ env:
 jobs:
   checks:
     runs-on: ubuntu-latest
-    container: python:3.10
+    container: python:3.12
 
     services:
       postgres:
@@ -73,10 +73,10 @@ jobs:
       - name: Build and publish app
         uses: openzim/docker-publish-action@v6
         with:
-          image-name: collinmutembei/api-people
+          image-name: collinmutembei/people
           on-master: latest
           latest-on-tag: true
-          restrict-to: collinmutembei/api-people
+          restrict-to: collinmutembei/people
           registries: |
             ghcr.io
           credentials: |
