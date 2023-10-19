@@ -7,7 +7,7 @@ name = "pypi"
 fastapi = "*"
 uvicorn = "*"
 tortoise-orm = {version = "*", extras = ["asyncpg"]}
-fastapi-users = {version = "*", extras = ["oauth"]}
+fastapi-users = {version = "==8.1.5", extras = ["oauth", "tortoise-orm"]}
 aerich = "*"
 python-decouple = "*"
 fastapi-crudrouter = "*"
