@@ -72,7 +72,7 @@ register_tortoise(api, **orm_config.dict())
 
 
 @api.on_event("startup")
-async def log_banner():
+async def on_startup():
     logger.info(
         """
 

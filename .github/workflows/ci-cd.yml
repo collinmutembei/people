@@ -57,11 +57,11 @@ jobs:
 
       - name: Run Linters and Checks
         run: |
-          pipenv run pre-commit run --all
+          pre-commit run --all
 
       - name: Run tests
         run: |
-          pipenv run pytest --cov=src
+          pytest --cov=src
 
   build_and_publish:
     runs-on: ubuntu-latest
