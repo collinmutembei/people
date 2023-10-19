@@ -1,10 +1,10 @@
 # pull official base image
-FROM python:3.10-slim-buster
+FROM python:3.12-slim-buster
 
-LABEL org.opencontainers.image.title="collinmutembei/api-people" \
+LABEL org.opencontainers.image.title="collinmutembei/people" \
   org.opencontainers.image.description="API service for people information" \
   org.opencontainers.image.url="https://collinmutembei.dev/projects/api-service-template" \
-  org.opencontainers.image.source="https://github.com/collinmutembei/api-people" \
+  org.opencontainers.image.source="https://github.com/collinmutembei/people" \
   org.opencontainers.image.revision="$COMMIT_ID" \
   org.opencontainers.image.version="$PROJECT_VERSION" \
   org.opencontainers.image.authors="Collin Mutembei (https://collinmutembei.dev)" \
