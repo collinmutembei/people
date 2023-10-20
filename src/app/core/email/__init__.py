@@ -28,7 +28,6 @@ fm = FastMail(conf)
 
 
 async def sender(email: EmailSchema, subject: str, template_name: str):
-
     message = MessageSchema(
         subject=subject,
         recipients=email.dict().get("email"),

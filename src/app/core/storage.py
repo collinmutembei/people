@@ -39,7 +39,6 @@ class FileStorage(ABC):
 
 
 class S3FileStorage(FileStorage):
-
     FILE_UPLOAD_BUCKET_NAME = config("MINIO_BUCKET_NAME", default="people")
 
     def get_client(self) -> Minio:
