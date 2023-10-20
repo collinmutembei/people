@@ -1,48 +1,59 @@
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List
 
 from fastapi.openapi.models import Server, ServerVariable
 
-from app.settings.base import AppSettings, app_config
+from app.settings.base import AppEnv, AppSettings, app_config
 
-OPENAPI_API_NAME = "people"
-OPENAPI_API_VERSION = "0.0.1"
+OPENAPI_API_NAME = "People"
+OPENAPI_API_VERSION = "1.0.0"
 OPENAPI_API_DESCRIPTION = "You know, for people"
 
-DEV_SERVER = Server(
-    url="http://localhost:8000",
-    description="local server",
-    variables={},
+DEV_SERVER = dict(
+    Server(
+        url="http://localhost:8000",
+        description="local server",
+        variables={},
+    )
 )
-LIVE_SERVER = Server(
-    url="https://{server}/api/v1/people",
-    description="live server",
-    variables={
-        "server": ServerVariable(
-            enum=["staging.solublecode.dev", "solublecode.dev"],
-            default="staging.solublecode.dev",
-        )
-    },
+LIVE_SERVERS = dict(
+    Server(
+        url="https://{server}/api/people/v1",
+        description="live server",
+        variables={
+            "server": ServerVariable(
+                enum=["staging.solublecode.dev", "solublecode.dev"],
+                default="staging.solublecode.dev",
+            )
+        },
+    )
 )
-GITHUB_SERVER = Server(
-    url="https://{subdomain}.githubpreview.dev",
-    description="github codespaces",
-    variables={"subdomain": ServerVariable(default="")},
+GITHUB_SERVER = dict(
+    Server(
+        url="https://{subdomain}.githubpreview.dev",
+        description="github codespaces",
+        variables={"subdomain": ServerVariable(default="")},
+    )
 )
+
+SERVERS = {
+    AppEnv.DEV: [DEV_SERVER],
+    AppEnv.PROD: [LIVE_SERVERS, GITHUB_SERVER],
+}
 
 
 class OpenAPISettings(AppSettings):
     name: str
     version: str
     description: str
-    servers: List[Dict[str, Union[str, Any]]]
+    servers: List[Dict[str, str | Any]]
 
     @classmethod
     def generate(cls):
         return OpenAPISettings(
-            name=f"{app_config.app_env} {OPENAPI_API_NAME}",
+            name=f"{app_config.app_env.value} {OPENAPI_API_NAME}",
             version=OPENAPI_API_VERSION,
             description=OPENAPI_API_DESCRIPTION,
-            servers=[DEV_SERVER, LIVE_SERVER, GITHUB_SERVER],
+            servers=SERVERS[app_config.app_env],
         )
 
 

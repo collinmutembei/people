@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, File, UploadFile
 
 from app.core.storage import FileStorage, S3FileStorage
 from app.core.users import fastapi_users
-from app.models.contacts import ContactsFile, ContactsFileSchema
+from app.schemas.contacts import ContactsFile, ContactsFileSchema
 
 router = APIRouter()
 

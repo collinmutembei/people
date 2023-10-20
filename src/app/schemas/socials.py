@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from tortoise import fields, models
 from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_creator
 
-from app.models.mixins import TimestampMixin
+from app.schemas.mixins import TimestampMixin
 
 
 class SocialNetwork(TimestampMixin, models.Model):

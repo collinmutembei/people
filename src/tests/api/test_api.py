@@ -3,7 +3,7 @@ import email
 from jsf import JSF
 
 from app.core.email import ACCOUNT_VERIFICATION_EMAIL_SUBJECT, fm
-from app.models.users import UserCreate
+from app.schemas.users import UserCreate
 
 
 def test_docs(client):

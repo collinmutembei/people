@@ -1,7 +1,7 @@
 from tortoise import fields, models
 from tortoise.contrib.pydantic import pydantic_model_creator
 
-from app.models.mixins import TimestampMixin
+from app.schemas.mixins import TimestampMixin
 
 
 class ContactsFile(TimestampMixin, models.Model):
