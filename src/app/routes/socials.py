@@ -1,49 +1,31 @@
-# from fastapi import Depends
-# from fastapi_crudrouter.core.tortoise import TortoiseCRUDRouter
+from fastapi import APIRouter
 
-# from app.core.users import current_active_user
-# from app.schemas.socials import (
-#     SocialAccount,
-#     SocialAccountCreateModel,
-#     SocialAccountModel,
-#     SocialNetwork,
-#     SocialNetworkCreateModel,
-#     SocialNetworkModel,
-# )
-# from app.schemas.users import User
+from app.db import SocialAccount, SocialNetwork, User
+from app.schemas.socials import (
+    SocialAccountCreate,
+    SocialAccountRead,
+    SocialAccountUpdate,
+)
 
-# social_network_router = TortoiseCRUDRouter(
-#     schema=SocialNetworkModel,
-#     create_schema=SocialNetworkCreateModel,
-#     update_schema=SocialNetworkCreateModel,
-#     db_model=SocialNetwork,
-#     dependencies=[Depends(current_active_user)],
-#     get_one_route=False,
-#     update_route=False,
-#     delete_one_route=False,
-#     delete_all_route=False,
-#     prefix="/socialnetwork",
-#     tags=["socialnetwork"],
-# )
+router = APIRouter()
 
 
-# @social_network_router.put("/{network_name}", response_model=SocialNetworkModel)
-# async def update_social_network(
-#     network_name: str, updated_network: SocialNetworkCreateModel  # type: ignore
-# ):
-#     network = await SocialNetwork.filter(name=network_name).update(
-#         **updated_network.dict(exclude_unset=True)  # type: ignore
-#     )
-#     return await SocialNetworkModel.from_queryset_single(network)  # type: ignore
+@router.put("/{network_name}", response_model=SocialAccountRead)
+async def update_social_network(
+    network_name: str, updated_network: SocialAccountUpdate
+):
+    network = await SocialNetwork.find_one(SocialNetwork.name == network_name)
+    await network.set(**updated_network.model_dump(exclude_unset=True))
+    return network
 
 
-# @social_network_router.post("/{network_name}", response_model=SocialAccountModel)
-# async def add_social_network_profile(
-#     network_name: str, account_data: SocialAccountCreateModel
-# ):
-#     network = await SocialNetwork.get(name=network_name)
-#     user = await User.get(id=account_data.user_id)
-#     social_account = await SocialAccount.create(
-#         user=user, network=network, username=account_data.username
-#     )
-#     return await SocialAccountModel.from_tortoise_orm(social_account)
+@router.post("/{network_name}", response_model=SocialAccountRead)
+async def add_social_network_profile(
+    network_name: str, account_data: SocialAccountCreate
+):
+    network = await SocialNetwork.find_one(SocialNetwork.name == network_name)
+    user = await User.find_one(User._id == account_data.user._id)
+    social_account = await SocialAccount(
+        user=user, network=network, username=account_data.username
+    )
+    return social_account

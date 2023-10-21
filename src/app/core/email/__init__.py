@@ -13,16 +13,6 @@ class EmailSchema(BaseModel):
     body: Dict[str, Any]
 
 
-# conf = ConnectionConfig(
-#     MAIL_USERNAME="username",
-#     MAIL_PASSWORD="password",
-#     MAIL_FROM="admin@people.api",
-#     MAIL_PORT=1025,
-#     MAIL_SERVER="localhost",
-#     MAIL_TLS=False,
-#     MAIL_SSL=False,
-#     TEMPLATE_FOLDER=Path(__file__).parent / "templates",
-# )
 conf = ConnectionConfig(
     MAIL_USERNAME="username",
     MAIL_PASSWORD="password",

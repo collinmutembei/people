@@ -5,18 +5,18 @@ from beanie import init_beanie
 from fastapi import Depends, FastAPI
 from loguru import logger
 
-from app.core.users import (  # SECRET,; github_oauth_client,; linkedin_oauth_client,
+from app.core.users import (
+    SECRET,
     auth_backend,
     current_active_user,
     fastapi_users,
+    google_oauth_client,
 )
 from app.db import User, db
+from app.routes.contacts import router as ContactsUploadRouter
+from app.routes.profiles import router as SocialProfileRouter
+from app.routes.socials import router as SocialNetworkRouter
 from app.schemas.users import UserCreate, UserRead, UserUpdate
-
-# from app.routes.auth import router as AuthRouter
-# from app.routes.contacts import router as ContactsUploadRouter
-# from app.routes.profiles import router as SocialProfileRouter
-# from app.routes.socials import social_network_router as SocialNetworkRouter
 from app.settings.openapi import openapi_config
 
 logger.remove()
@@ -59,7 +59,6 @@ api = FastAPI(
     lifespan=lifespan,
 )
 
-# api.include_router(fastapi_users.get_register_router(), prefix="/auth", tags=["auth"])
 api.include_router(
     fastapi_users.get_auth_router(auth_backend),
     prefix="/auth/jwt",
@@ -70,16 +69,6 @@ api.include_router(
     prefix="/auth",
     tags=["auth"],
 )
-# api.include_router(
-#     fastapi_users.get_oauth_router(github_oauth_client, SECRET),
-#     prefix="/auth/github",
-#     tags=["auth"],
-# )
-# api.include_router(
-#     fastapi_users.get_oauth_router(linkedin_oauth_client, SECRET),
-#     prefix="/auth/linkedin",
-#     tags=["auth"],
-# )
 api.include_router(
     fastapi_users.get_reset_password_router(),
     prefix="/auth",
@@ -88,6 +77,11 @@ api.include_router(
 api.include_router(
     fastapi_users.get_verify_router(UserRead),
     prefix="/auth",
+    tags=["auth"],
+)
+api.include_router(
+    fastapi_users.get_oauth_router(google_oauth_client, auth_backend, SECRET),
+    prefix="/auth/google",
     tags=["auth"],
 )
 api.include_router(
@@ -102,12 +96,6 @@ async def authenticated_route(user: User = Depends(current_active_user)):
     return {"message": f"Hello {user.email}!"}
 
 
-# api.include_router(AuthRouter, prefix="/auth/jwt", tags=["auth"])
-# api.include_router(
-#     fastapi_users.get_users_router(requires_verification=True),
-#     prefix="/users",
-#     tags=["users"],
-# )
-# api.include_router(SocialNetworkRouter)
-# api.include_router(SocialProfileRouter, prefix="/socialprofile", tags=["socialprofile"])
-# api.include_router(ContactsUploadRouter, prefix="/contacts", tags=["uploads"])
+api.include_router(SocialNetworkRouter)
+api.include_router(SocialProfileRouter, prefix="/socialprofile", tags=["socialprofile"])
+api.include_router(ContactsUploadRouter, prefix="/contacts", tags=["uploads"])

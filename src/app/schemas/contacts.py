@@ -1,13 +1,15 @@
-from tortoise import fields, models
-from tortoise.contrib.pydantic import pydantic_model_creator
+from uuid import UUID
 
-from app.schemas.mixins import TimestampMixin
-
-
-class ContactsFile(TimestampMixin, models.Model):
-    id = fields.IntField(pk=True)
-    name = fields.CharField(max_length=100)
-    uploader = fields.ForeignKeyField("models.User", related_name="contacts_files")
+from beanie import PydanticObjectId
+from pydantic import BaseModel
 
 
-ContactsFileSchema = pydantic_model_creator(ContactsFile, name="ContactsFile")
+class ContactsFileRead(BaseModel):
+    id: UUID
+    name: str
+    uploader: PydanticObjectId
+
+
+class ContactsFileCreate(BaseModel):
+    name: str
+    uploader: PydanticObjectId

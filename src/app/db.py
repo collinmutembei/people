@@ -1,8 +1,11 @@
-from typing import Optional
+from datetime import date, datetime
+from functools import cached_property
+from typing import List, Optional
+from uuid import UUID, uuid4
 
 import motor.motor_asyncio
-from beanie import Document
-from fastapi_users.db import BeanieBaseUser, BeanieUserDatabase
+from beanie import BackLink, Document, Indexed, Link
+from fastapi_users.db import BaseOAuthAccount, BeanieBaseUser, BeanieUserDatabase
 from phonenumbers import (
     NumberParseException,
     PhoneNumberFormat,
@@ -12,7 +15,7 @@ from phonenumbers import (
     number_type,
 )
 from phonenumbers import parse as parse_phone_number
-from pydantic import EmailStr, constr, validator
+from pydantic import BaseModel, EmailStr, Field, constr, validator
 from pymongo import IndexModel
 from pymongo.collation import Collation
 
@@ -27,9 +30,38 @@ db = client[DATABASE_NAME]
 MOBILE_NUMBER_TYPES = PhoneNumberType.MOBILE, PhoneNumberType.FIXED_LINE_OR_MOBILE
 
 
+class TimestampMixin(BaseModel):
+    created_at: datetime = Field(default_factory=datetime.now)
+    modified_at: datetime
+
+
+class OAuthAccount(BaseOAuthAccount):
+    pass
+
+
 class User(BeanieBaseUser, Document):
     email: Optional[EmailStr]
     phone_number: constr(max_length=20, strip_whitespace=True) = None  # type: ignore
+    birthdate: Optional[date] = None
+    oauth_accounts: List[OAuthAccount] = Field(default_factory=list)
+
+    @cached_property
+    def age(self) -> Optional[int]:
+        """
+        Returns user's age based on birthdate
+        Source: https://stackoverflow.com/a/9754466
+        """
+        today = date.today()
+        if self.birthdate:
+            return (
+                today.year
+                - self.birthdate.year
+                - (
+                    (today.month, today.day)
+                    < (self.birthdate.month, self.birthdate.day)
+                )
+            )
+        return None
 
     @validator("phone_number")
     def check_phone_number(cls, v):
@@ -56,6 +88,33 @@ class User(BeanieBaseUser, Document):
             ),
             IndexModel("phone_number", unique=True),
         ]
+
+    class PydanticMeta:
+        computed = ["age"]
+
+
+class ContactsFile(TimestampMixin, Document):
+    id: UUID = uuid4()
+    name: str
+    uploader: Link[User]
+
+
+class SocialAccount(TimestampMixin, Document):
+    id: UUID = uuid4()
+    username: Indexed(str, unique=True)  # type: ignore[valid-type]
+    network: Link["SocialNetwork"]
+    user: Link[User]
+
+    def __str__(self):
+        return f"https://{self.network.domain}{self.network.account_prefix}{self.username}"  # type: ignore
+
+
+class SocialNetwork(TimestampMixin, Document):
+    id: UUID = uuid4()
+    name: Indexed(str, unique=True)  # type: ignore[valid-type]
+    domain: str
+    account_prefix: Indexed(str, unique=True)  # type: ignore[valid-type]
+    accounts: BackLink[SocialAccount] = Field(original_field="network")
 
 
 async def get_user_db():

@@ -1,19 +1,19 @@
-# from typing import Optional
+from typing import List, Optional
 
-# from fastapi import APIRouter, Depends
+from beanie.operators import In
+from fastapi import APIRouter, Depends
 
-# from app.core.users import current_active_user
-# from app.schemas.socials import SocialAccount, SocialAccountListModel, SocialNetwork
-# from app.schemas.users import UserDB
+from app.core.users import current_active_user
+from app.db import SocialAccount, SocialNetwork, User
+from app.schemas.socials import SocialAccountRead
 
-# router = APIRouter()
+router = APIRouter()
 
 
-# @router.get("", response_model=SocialAccountListModel)
-# async def all_social_profiles(
-#     network_name: Optional[str] = "", user: UserDB = Depends(current_active_user)
-# ):
-#     if network_name:
-#         network = await SocialNetwork.get(name=network_name)
-#         return await SocialAccountListModel.from_queryset(network.accounts.all())  # type: ignore
-#     return await SocialAccountListModel.from_queryset(SocialAccount.all())  # type: ignore
+@router.get("", response_model=Optional[List[SocialAccountRead]])
+async def all_social_profiles(
+    network_name: Optional[str] = "", user: User = Depends(current_active_user)
+):
+    if network_name:
+        network = await SocialNetwork.find(name=network_name)
+        return await SocialAccount.find(In(user._id, network.accounts)).to_list()

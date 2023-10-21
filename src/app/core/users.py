@@ -10,9 +10,7 @@ from fastapi_users.authentication import (
     JWTStrategy,
 )
 from fastapi_users.db import BeanieUserDatabase, ObjectIDIDMixin
-
-# from httpx_oauth.clients.github import GitHubOAuth2
-# from httpx_oauth.clients.linkedin import LinkedInOAuth2
+from httpx_oauth.clients.google import GoogleOAuth2
 from loguru import logger
 
 from app.core.email import (
@@ -28,15 +26,13 @@ from app.db import User, get_user_db
 SECRET = config("SECRET", default="7bb9f5050b304ca37d2e60d0e3a9d2bf23e859be")
 JWT_LIFETIME_SECONDS = 3600
 
-# github_oauth_client = GitHubOAuth2(
-#     config("GITHUB_CLIENT_ID"),
-#     config("GITHUB_CLIENT_SECRET"),
-# )
-
-# linkedin_oauth_client = LinkedInOAuth2(
-#     config("LINKEDIN_CLIENT_ID", default="abc"),
-#     config("LINKEIN_CLIENT_SECRET", default="def"),
-# )
+google_oauth_client = GoogleOAuth2(
+    config(
+        "GOOGLE_CLIENT_ID",
+        default="62960819323-86d5jg9dn8nfg24kt987c0e615gsj129.apps.googleusercontent.com",
+    ),
+    config("GOOGLE_CLIENT_SECRET", default=""),
+)
 
 
 class UserManager(ObjectIDIDMixin, BaseUserManager[User, PydanticObjectId]):
