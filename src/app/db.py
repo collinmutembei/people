@@ -4,7 +4,7 @@ from typing import List, Optional
 from uuid import UUID, uuid4
 
 import motor.motor_asyncio
-from beanie import BackLink, Document, Indexed, Link
+from beanie import Document, Indexed, Link
 from fastapi_users.db import BaseOAuthAccount, BeanieBaseUser, BeanieUserDatabase
 from phonenumbers import (
     NumberParseException,
@@ -33,6 +33,11 @@ MOBILE_NUMBER_TYPES = PhoneNumberType.MOBILE, PhoneNumberType.FIXED_LINE_OR_MOBI
 class TimestampMixin(BaseModel):
     created_at: datetime = Field(default_factory=datetime.now)
     modified_at: datetime
+
+
+class AuditActionsMixin(BaseModel):
+    created_by: Optional[Link["User"]] = None
+    modified_by: Optional[Link["User"]] = None
 
 
 class OAuthAccount(BaseOAuthAccount):
@@ -93,28 +98,33 @@ class User(BeanieBaseUser, Document):
         computed = ["age"]
 
 
-class ContactsFile(TimestampMixin, Document):
-    id: UUID = uuid4()
-    name: str
-    uploader: Link[User]
+class ContactsFile(TimestampMixin, AuditActionsMixin, Document):
+    id: UUID = Field(default_factory=uuid4)
+    filename: str
 
 
-class SocialAccount(TimestampMixin, Document):
-    id: UUID = uuid4()
-    username: Indexed(str, unique=True)  # type: ignore[valid-type]
+class SocialAccount(TimestampMixin, AuditActionsMixin, Document):
+    id: UUID = Field(default_factory=uuid4)
+    username: Indexed(str)  # type: ignore[valid-type]
     network: Link["SocialNetwork"]
     user: Link[User]
 
     def __str__(self):
         return f"https://{self.network.domain}{self.network.account_prefix}{self.username}"  # type: ignore
 
+    class Settings:
+        name = "social_accounts"
 
-class SocialNetwork(TimestampMixin, Document):
-    id: UUID = uuid4()
+
+class SocialNetwork(TimestampMixin, AuditActionsMixin, Document):
+    id: UUID = Field(default_factory=uuid4)
     name: Indexed(str, unique=True)  # type: ignore[valid-type]
     domain: str
-    account_prefix: Indexed(str, unique=True)  # type: ignore[valid-type]
-    accounts: BackLink[SocialAccount] = Field(original_field="network")
+    account_prefix: Optional[str] = "/"
+    # accounts: Optional[BackLink[SocialAccount]] = Field(original_field="network")
+
+    class Settings:
+        name = "social_networks"
 
 
 async def get_user_db():

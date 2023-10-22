@@ -2,17 +2,16 @@ import sys
 from contextlib import asynccontextmanager
 
 from beanie import init_beanie
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from loguru import logger
 
-from app.core.users import (
+from app.core.users import (  # current_active_user,
     SECRET,
     auth_backend,
-    current_active_user,
     fastapi_users,
     google_oauth_client,
 )
-from app.db import User, db
+from app.db import SocialAccount, SocialNetwork, User, db
 from app.routes.contacts import router as ContactsUploadRouter
 from app.routes.profiles import router as SocialProfileRouter
 from app.routes.socials import router as SocialNetworkRouter
@@ -46,6 +45,8 @@ For people
         database=db,
         document_models=[
             User,
+            SocialAccount,
+            SocialNetwork,
         ],
     )
     yield
@@ -91,11 +92,11 @@ api.include_router(
 )
 
 
-@api.get("/authenticated-route")
-async def authenticated_route(user: User = Depends(current_active_user)):
-    return {"message": f"Hello {user.email}!"}
+# @api.get("/authenticated-route")
+# async def authenticated_route(user: User = Depends(current_active_user)):
+#     return {"message": f"Hello {user.email}!"}
 
 
-api.include_router(SocialNetworkRouter)
+api.include_router(SocialNetworkRouter, prefix="/socialnetwork", tags=["socialnetwork"])
 api.include_router(SocialProfileRouter, prefix="/socialprofile", tags=["socialprofile"])
 api.include_router(ContactsUploadRouter, prefix="/contacts", tags=["uploads"])

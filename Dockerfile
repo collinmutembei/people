@@ -17,17 +17,16 @@ WORKDIR /usr/api
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PORT 8000
-ENV DATABASE_URL sqlite:///tmp/people.db
 
 # install system dependencies
 RUN apt-get update \
-  && apt-get -y install gcc sqlite3 postgresql libmagic1 \
+  && apt-get -y install libmagic1 \
   && apt-get clean
 
 # install python dependencies
-RUN pip install --upgrade pip pipenv
-COPY Pipfile Pipfile.lock ./
-RUN pipenv install --system --deploy
+RUN pip install --upgrade pip poetry
+COPY pyproject.toml poetry.lock ./
+RUN postry install --no-dev
 
 # add app
 COPY src .
