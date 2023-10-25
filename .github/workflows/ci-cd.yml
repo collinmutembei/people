@@ -8,7 +8,7 @@ on:
       - main
 
 env:
-  DATABASE_URL: mongodb://localhost:27017
+  DATABASE_URL: mongodb://mongodb:27017
   API_ENV: 🛠
   GOOGLE_CLIENT_ID: test
   GOOGLE_CLIENT_SECRET: test
