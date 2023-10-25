@@ -5,18 +5,18 @@ from beanie import init_beanie
 from fastapi import FastAPI
 from loguru import logger
 
-from app.core.users import (  # current_active_user,
+from api.core.users import (  # current_active_user,
     SECRET,
     auth_backend,
     fastapi_users,
     google_oauth_client,
 )
-from app.db import SocialAccount, SocialNetwork, User, db
-from app.routes.contacts import router as ContactsUploadRouter
-from app.routes.profiles import router as SocialProfileRouter
-from app.routes.socials import router as SocialNetworkRouter
-from app.schemas.users import UserCreate, UserRead, UserUpdate
-from app.settings.openapi import openapi_config
+from api.db import SocialAccount, SocialNetwork, User, db
+from api.routes.contacts import router as ContactsUploadRouter
+from api.routes.profiles import router as SocialProfileRouter
+from api.routes.socials import router as SocialNetworkRouter
+from api.schemas.users import UserCreate, UserRead, UserUpdate
+from api.settings.openapi import openapi_config
 
 logger.remove()
 logger.add(sys.stdout, colorize=True, backtrace=True, diagnose=True)
@@ -61,7 +61,7 @@ api = FastAPI(
 )
 
 api.include_router(
-    fastapi_users.get_auth_router(auth_backend),
+    fastapi_users.get_auth_router(auth_backend, requires_verification=True),
     prefix="/auth/jwt",
     tags=["auth"],
 )

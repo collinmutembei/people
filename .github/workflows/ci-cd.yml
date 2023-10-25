@@ -8,15 +8,12 @@ on:
       - main
 
 env:
-  DATABASE_URL: postgres://postgres:postgres@postgres:5432/test
-  APP_ENV: 🛠
-  GITHUB_CLIENT_ID: test
-  GITHUB_CLIENT_SECRET: test
-  LINKEDIN_CLIENT_ID: test
-  LINKEIN_CLIENT_SECRET: test
+  DATABASE_URL: mongodb://localhost:27017
+  API_ENV: 🛠
+  GOOGLE_CLIENT_ID: test
+  GOOGLE_CLIENT_SECRET: test
   MINIO_ACCESS_KEY: test
   MINIO_SECRET_KEY: test
-  PIPENV_VENV_IN_PROJECT: 1
 
 jobs:
   checks:
@@ -33,41 +30,22 @@ jobs:
     needs: [checks]
 
     services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_DB: test
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+      mongodb:
+        image: mongodb/mongodb-community-server:latest
 
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
           python-version: 3.12
-
-      - name: Install pipenv
-        run: |
-          python -m pip install --upgrade pip pipenv wheel
-      - id: cache-pipenv
-        uses: actions/cache@v3
+      - name: Setup poetry
+        uses: abatilo/actions-poetry@v2
         with:
-          path: .venv
-          key: pipenv-${{ hashFiles('**/Pipfile.lock') }}
-
+          poetry-version: 1.6.1
       - name: Install dependencies
-        if: steps.cache-pipenv.outputs.cache-hit != 'true'
-        run: |
-          pipenv install --deploy --dev
-
+        run: poetry install
       - name: Run tests
-        run: |
-          pipenv run pytest --cov=src
+        run: cd src && poetry run pytest
 
   build_and_publish:
     runs-on: ubuntu-latest

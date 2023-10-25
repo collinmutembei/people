@@ -13,13 +13,13 @@ from fastapi_users.db import BeanieUserDatabase, ObjectIDIDMixin
 from httpx_oauth.clients.google import GoogleOAuth2
 from loguru import logger
 
-from app.core.email import (
+from api.core.email import (
     ACCOUNT_VERIFICATION_EMAIL_SUBJECT,
     PASSWORD_RESET_EMAIL_SUBJECT,
     EmailSchema,
     sender,
 )
-from app.db import User, get_user_db
+from api.db import User, get_user_db
 
 # from app.schemas.users import UserBase, UserCreate, UserDB, UserUpdate
 

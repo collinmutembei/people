@@ -4,7 +4,7 @@ from uuid import UUID
 from beanie import Link, PydanticObjectId
 from pydantic import BaseModel
 
-from app.db import SocialNetwork, User
+from api.db import SocialNetwork, User
 
 
 class SocialAccountRead(BaseModel):

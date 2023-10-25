@@ -3,9 +3,9 @@ from typing import List, Optional
 
 from fastapi import APIRouter, Depends
 
-from app.core.users import current_active_user
-from app.db import SocialAccount, SocialNetwork, User
-from app.schemas.socials import SocialAccountCreate, SocialAccountRead
+from api.core.users import current_active_user
+from api.db import SocialAccount, SocialNetwork, User
+from api.schemas.socials import SocialAccountCreate, SocialAccountRead
 
 router = APIRouter()
 

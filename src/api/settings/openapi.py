@@ -2,10 +2,11 @@ from typing import Any, Dict, List
 
 from fastapi.openapi.models import Server, ServerVariable
 
-from app.settings.base import AppEnv, AppSettings, app_config
+from api import __version__
+from api.settings.base import APIEnv, APISettings, api_config
 
 OPENAPI_API_NAME = "People"
-OPENAPI_API_VERSION = "1.0.0"
+OPENAPI_API_VERSION = __version__
 OPENAPI_API_DESCRIPTION = "You know, for people"
 
 DEV_SERVER = dict(
@@ -36,12 +37,12 @@ GITHUB_SERVER = dict(
 )
 
 SERVERS = {
-    AppEnv.DEV: [DEV_SERVER],
-    AppEnv.PROD: [LIVE_SERVERS, GITHUB_SERVER],
+    APIEnv.DEV: [DEV_SERVER],
+    APIEnv.PROD: [LIVE_SERVERS, GITHUB_SERVER],
 }
 
 
-class OpenAPISettings(AppSettings):
+class OpenAPISettings(APISettings):
     name: str
     version: str
     description: str
@@ -50,10 +51,10 @@ class OpenAPISettings(AppSettings):
     @classmethod
     def generate(cls):
         return OpenAPISettings(
-            name=f"{app_config.app_env.value} {OPENAPI_API_NAME}",
+            name=f"{api_config.api_env.value} {OPENAPI_API_NAME}",
             version=OPENAPI_API_VERSION,
             description=OPENAPI_API_DESCRIPTION,
-            servers=SERVERS[app_config.app_env],
+            servers=SERVERS[api_config.api_env],
         )
 
 

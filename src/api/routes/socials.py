@@ -3,9 +3,9 @@ from typing import List, Optional
 
 from fastapi import APIRouter, Depends
 
-from app.core.users import current_active_user
-from app.db import SocialNetwork, User
-from app.schemas.socials import (
+from api.core.users import current_active_user
+from api.db import SocialNetwork, User
+from api.schemas.socials import (
     SocialNetworkCreate,
     SocialNetworkRead,
     SocialNetworkUpdate,

@@ -15,15 +15,15 @@ from phonenumbers import (
     number_type,
 )
 from phonenumbers import parse as parse_phone_number
-from pydantic import BaseModel, EmailStr, Field, constr, validator
+from pydantic import BaseModel, EmailStr, Field  # , constr, field_validator
 from pymongo import IndexModel
 from pymongo.collation import Collation
 
-from app.settings.base import app_config
+from api.settings.base import api_config
 
 DATABASE_NAME = "people"
 client = motor.motor_asyncio.AsyncIOMotorClient(
-    app_config.db_url, uuidRepresentation="standard"
+    api_config.db_url, uuidRepresentation="standard"
 )
 db = client[DATABASE_NAME]
 
@@ -44,9 +44,25 @@ class OAuthAccount(BaseOAuthAccount):
     pass
 
 
+def phone_number_validator(cls, v):
+    """Validates phone number are valid Kenyan mobile phone numbers"""
+    if v is None:
+        return v
+
+    try:
+        n = parse_phone_number(v, "KE")
+    except NumberParseException as e:
+        raise ValueError("Please provide a valid mobile phone number") from e
+
+    if not is_valid_number(n) or number_type(n) not in MOBILE_NUMBER_TYPES:
+        raise ValueError("Please provide a valid mobile phone number")
+
+    return format_number(n, PhoneNumberFormat.INTERNATIONAL)
+
+
 class User(BeanieBaseUser, Document):
     email: Optional[EmailStr]
-    phone_number: constr(max_length=20, strip_whitespace=True) = None  # type: ignore
+    # phone_number: constr(max_length=20, strip_whitespace=True) = None # type: ignore
     birthdate: Optional[date] = None
     oauth_accounts: List[OAuthAccount] = Field(default_factory=list)
 
@@ -68,20 +84,7 @@ class User(BeanieBaseUser, Document):
             )
         return None
 
-    @validator("phone_number")
-    def check_phone_number(cls, v):
-        if v is None:
-            return v
-
-        try:
-            n = parse_phone_number(v, "KE")
-        except NumberParseException as e:
-            raise ValueError("Please provide a valid mobile phone number") from e
-
-        if not is_valid_number(n) or number_type(n) not in MOBILE_NUMBER_TYPES:
-            raise ValueError("Please provide a valid mobile phone number")
-
-        return format_number(n, PhoneNumberFormat.INTERNATIONAL)
+    # _phone_number_validator: classmethod = field_validator("phone_number")(phone_number_validator)
 
     class Settings:
         name = "users"
@@ -91,7 +94,7 @@ class User(BeanieBaseUser, Document):
             IndexModel(
                 "email", name="case_insensitive_email_index", collation=email_collation
             ),
-            IndexModel("phone_number", unique=True),
+            # IndexModel("phone_number", unique=True),
         ]
 
     class PydanticMeta:
