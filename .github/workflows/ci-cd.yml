@@ -16,7 +16,7 @@ env:
   MINIO_SECRET_KEY: test
 
 jobs:
-  checks:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,9 +25,9 @@ jobs:
           python-version: 3.12
       - uses: pre-commit/action@v3.0.0
 
-  tests:
+  test:
     runs-on: ubuntu-latest
-    needs: [checks]
+    needs: [check]
 
     services:
       mongodb:
@@ -49,9 +49,9 @@ jobs:
       - name: Run tests
         run: cd src && poetry run pytest
 
-  build_and_publish:
+  package:
     runs-on: ubuntu-latest
-    needs: [tests]
+    needs: [test]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
