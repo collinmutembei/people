@@ -17,12 +17,19 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 # COPY requirements.txt /tmp/pip-tmp/
 # RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
 #    && rm -rf /tmp/pip-tmp
-RUN pip install -U pip pipenv
+
+RUN pip install -U pip poetry
+
+# Configure poetry to install packages to the global python environment
+RUN poetry config virtualenvs.create false
 
 # [Optional] Uncomment this section to install additional OS packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends sqlite3 libmagic1
+    && apt-get -y install --no-install-recommends libmagic1
 
 # Install minio client
 RUN cd /usr/local/bin && curl https://dl.min.io/client/mc/release/linux-amd64/mc -o mc
 RUN chmod +x /usr/local/bin/mc
+
+# Configure minio client
+RUN mc config host add minio http://localhost:9000 minio password

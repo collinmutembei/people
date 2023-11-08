@@ -10,7 +10,7 @@ from decouple import config
 from minio import Minio
 from starlette.datastructures import UploadFile
 
-from app.settings.base import AppEnv, app_config
+from api.settings.base import APIEnv, api_config
 
 
 @dataclass
@@ -46,7 +46,7 @@ class S3FileStorage(FileStorage):
             endpoint=config("MINIO_ADDRESS", default="localhost:9000"),
             access_key=config("MINIO_ACCESS_KEY"),
             secret_key=config("MINIO_SECRET_KEY"),
-            secure=app_config.app_env == AppEnv.PROD,
+            secure=api_config.api_env == APIEnv.PROD,
         )
 
     def _prepare_bucket(self, bucket_name: str):

@@ -2,31 +2,29 @@ import email
 
 from jsf import JSF
 
-from app.core.email import ACCOUNT_VERIFICATION_EMAIL_SUBJECT, fm
-from app.models.users import UserCreate
+from api.core.email import ACCOUNT_VERIFICATION_EMAIL_SUBJECT, fm
+from api.schemas.users import UserCreate
 
 
 def test_docs(client):
     response = client.get(
         "/docs",
     )
-    assert response.ok
     assert response.status_code == 200
 
 
 def test_register_user(client):
-    user = JSF(UserCreate.schema()).generate()
-    user.update({"phone_number": "0711223344"})
+    user = JSF(UserCreate.model_json_schema()).generate()
     response = client.post("/auth/register", json=user)
     assert response.status_code == 201
     assert not response.json()["is_verified"]
     assert response.json().get("name") == user.get("name")
     assert response.json().get("email") == user.get("email")
+    # assert response.json().get("phone_number") == "+254 711 223344"
 
 
 def test_login_jwt_not_verified(client):
-    user = JSF(UserCreate.schema()).generate()
-    user.update({"phone_number": "0711223344"})
+    user = JSF(UserCreate.model_json_schema()).generate()
     client.post(
         "/auth/register",
         json=user,
@@ -43,8 +41,7 @@ def test_login_jwt_not_verified(client):
 
 def test_login_jwt_verified(client, email_html_parser):
     # Create user account
-    user = JSF(UserCreate.schema()).generate()
-    user.update({"phone_number": "0711223344"})
+    user = JSF(UserCreate.model_json_schema()).generate()
     client.post(
         "/auth/register",
         json=user,
@@ -60,7 +57,7 @@ def test_login_jwt_verified(client, email_html_parser):
         )
         verification_email = outbox[0]
 
-        assert verification_email["from"] == "admin@people.api"
+        assert verification_email["from"] == "People API <admin@people.api>"
         assert verification_email["to"] == user_email
         assert verification_email["subject"] == ACCOUNT_VERIFICATION_EMAIL_SUBJECT
         assert verification_email.is_multipart()
