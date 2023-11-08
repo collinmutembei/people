@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.12-slim-buster
+FROM python:3.12.0-slim-bullseye
 
 LABEL org.opencontainers.image.title="collinmutembei/people" \
   org.opencontainers.image.description="API service for people information" \
