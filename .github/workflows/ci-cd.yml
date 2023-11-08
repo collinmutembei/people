@@ -8,7 +8,7 @@ on:
       - main
 
 env:
-  DATABASE_URL: mongodb://test:password@localhost:27017/?authSource=admin
+  DATABASE_URL: mongodb://localhost:27017
   API_ENV: 🛠
   GOOGLE_CLIENT_ID: test
   GOOGLE_CLIENT_SECRET: test
@@ -32,15 +32,6 @@ jobs:
     services:
       mongodb:
         image: mongodb/mongodb-community-server:latest
-        env:
-          MONGO_INITDB_ROOT_USERNAME: test
-          MONGO_INITDB_ROOT_PASSWORD: password
-          MONGO_INITDB_DATABASE: test
-        options: >-
-          --health-cmd db.runCommand({serverStatus:1}).ok' | mongo admin -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
         ports:
           - 27017:27017
 
