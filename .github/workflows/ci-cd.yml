@@ -37,7 +37,7 @@ jobs:
           MONGO_INITDB_ROOT_PASSWORD: password
           MONGO_INITDB_DATABASE: test
         options: >-
-          --health-cmd mongo
+          --health-cmd db.runCommand({serverStatus:1}).ok' | mongo admin -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
