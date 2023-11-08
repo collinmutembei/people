@@ -8,7 +8,7 @@ on:
       - main
 
 env:
-  DATABASE_URL: mongodb://mongodb:27017
+  DATABASE_URL: mongodb://test:password@localhost:27017/?authSource=admin
   API_ENV: 🛠
   GOOGLE_CLIENT_ID: test
   GOOGLE_CLIENT_SECRET: test
@@ -32,6 +32,17 @@ jobs:
     services:
       mongodb:
         image: mongodb/mongodb-community-server:latest
+        env:
+          MONGO_INITDB_ROOT_USERNAME: test
+          MONGO_INITDB_ROOT_PASSWORD: password
+          MONGO_INITDB_DATABASE: test
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
 
     steps:
       - uses: actions/checkout@v4
