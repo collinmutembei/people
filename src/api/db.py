@@ -104,6 +104,10 @@ class User(BeanieBaseUser, Document):
 class ContactsFile(TimestampMixin, AuditActionsMixin, Document):
     id: UUID = Field(default_factory=uuid4)
     filename: str
+    uploader: Link[User]
+
+    class Settings:
+        name = "contacts_files"
 
 
 class SocialAccount(TimestampMixin, AuditActionsMixin, Document):

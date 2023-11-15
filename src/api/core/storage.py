@@ -32,7 +32,7 @@ class FileStorage(ABC):
 
     @abstractmethod
     def upload_file(
-        self, uploader_uuid: UUID, file_upload: UploadFile
+        self, uploader_uuid: str, file_upload: UploadFile
     ) -> Optional[UploadedData]:
         """Uploads file to file storage"""
         raise NotImplementedError
@@ -44,8 +44,8 @@ class S3FileStorage(FileStorage):
     def get_client(self) -> Minio:
         return Minio(
             endpoint=config("MINIO_ADDRESS", default="localhost:9000"),
-            access_key=config("MINIO_ACCESS_KEY"),
-            secret_key=config("MINIO_SECRET_KEY"),
+            access_key=config("MINIO_ACCESS_KEY", default="minio"),
+            secret_key=config("MINIO_SECRET_KEY",  default="password"),
             secure=api_config.api_env == APIEnv.PROD,
         )
 
@@ -59,7 +59,7 @@ class S3FileStorage(FileStorage):
         return magic.from_buffer(file.read(2048), mime=True)
 
     def upload_file(
-        self, uploader_uuid: UUID, file_upload: UploadFile
+        self, uploader_uuid: str, file_upload: UploadFile
     ) -> Optional[UploadedData]:
         self._prepare_bucket(self.FILE_UPLOAD_BUCKET_NAME)
         # Using deepcopy to ensure that the file.read operation
@@ -68,7 +68,7 @@ class S3FileStorage(FileStorage):
         if filetype == "application/csv":
             uploaded_file = self.client.put_object(
                 bucket_name=self.FILE_UPLOAD_BUCKET_NAME,
-                object_name=f"{uploader_uuid.hex}/{file_upload.filename}",
+                object_name=f"{uploader_uuid}/{file_upload.filename}",
                 data=deepcopy(file_upload.file),
                 length=-1,
                 part_size=5 * 1024 * 1024,

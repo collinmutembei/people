@@ -11,7 +11,7 @@ from api.core.users import (  # current_active_user,
     fastapi_users,
     google_oauth_client,
 )
-from api.db import SocialAccount, SocialNetwork, User, db
+from api.db import SocialAccount, SocialNetwork, User, db, ContactsFile
 from api.routes.contacts import router as ContactsUploadRouter
 from api.routes.profiles import router as SocialProfileRouter
 from api.routes.socials import router as SocialNetworkRouter
@@ -47,6 +47,7 @@ For people
             User,
             SocialAccount,
             SocialNetwork,
+            ContactsFile,
         ],
     )
     yield

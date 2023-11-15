@@ -1,15 +1,11 @@
 from uuid import UUID
 
-from beanie import PydanticObjectId
+from beanie import Link
 from pydantic import BaseModel
+from api.db import User
 
 
 class ContactsFileRead(BaseModel):
     id: UUID
-    name: str
-    uploader: PydanticObjectId
-
-
-class ContactsFileCreate(BaseModel):
-    name: str
-    uploader: PydanticObjectId
+    filename: str
+    uploader: Link[User]

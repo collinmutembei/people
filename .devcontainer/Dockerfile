@@ -11,7 +11,7 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then groupmod --g
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
 ARG NODE_VERSION="none"
-RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
+RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/sh*are/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
 # [Optional] If your requirements rarely change, uncomment this section to add them to the image.
 # COPY requirements.txt /tmp/pip-tmp/
@@ -32,4 +32,4 @@ RUN cd /usr/local/bin && curl https://dl.min.io/client/mc/release/linux-amd64/mc
 RUN chmod +x /usr/local/bin/mc
 
 # Configure minio client
-RUN mc config host add minio http://localhost:9000 minio password
+# RUN /usr/local/bin/mc config host add minio http://localhost:9000 minio password
