@@ -16,7 +16,7 @@ phonenumbers = "^8.13.23"
 uvicorn = {version = "^0.23.2", extras = ["standard"]}
 python-magic = "^0.4.27"
 pandas = ">=2.0.0"
-minio = "^7.1.17"
+minio = "^7.2.2"
 fastapi-mail = "^1.4.1"
 pydantic-settings = "^2.0.3"
 numpy = "^1.26.1"
