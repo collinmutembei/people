@@ -7,7 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
-fastapi = "^0.109.1"
+fastapi = "^0.109.2"
 beanie = "^1.25.0"
 fastapi-users = {version = "^12.1.2", extras = ["redis", "beanie", "oauth"]}
 loguru = "^0.7.2"
