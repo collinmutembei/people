@@ -1,6 +1,6 @@
 # [Choice] Python version: 3, 3.8, 3.7, 3.6
 ARG VARIANT=3.12
-FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
+FROM mcr.microsoft.com/vscode/devcontainers/python:1-${VARIANT}
 
 ENV PYTHONUNBUFFERED 1
 
@@ -19,9 +19,6 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 #    && rm -rf /tmp/pip-tmp
 
 RUN pip install -U pip poetry pre-commit
-
-# Configure poetry to install packages to the global python environment
-RUN poetry config virtualenvs.create false
 
 # [Optional] Uncomment this section to install additional OS packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
