@@ -18,7 +18,7 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 # RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
 #    && rm -rf /tmp/pip-tmp
 
-RUN pip install -U pip poetry
+RUN pip install -U pip poetry pre-commit
 
 # Configure poetry to install packages to the global python environment
 RUN poetry config virtualenvs.create false
@@ -30,6 +30,3 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # Install minio client
 RUN cd /usr/local/bin && curl https://dl.min.io/client/mc/release/linux-amd64/mc -o mc
 RUN chmod +x /usr/local/bin/mc
-
-# Configure minio client
-RUN mc config host add minio http://localhost:9000 minio password
