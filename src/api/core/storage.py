@@ -65,10 +65,10 @@ class S3FileStorage(FileStorage):
         # Using deepcopy to ensure that the file.read operation
         # in _get_file_type does not close the file before upload
         filetype = self._get_file_type(deepcopy(file_upload.file))
-        if filetype == "application/csv":
+        if filetype == "text/csv":
             uploaded_file = self.client.put_object(
                 bucket_name=self.FILE_UPLOAD_BUCKET_NAME,
-                object_name=f"{uploader_uuid.hex}/{file_upload.filename}",
+                object_name=f"{uploader_uuid}/{file_upload.filename}",
                 data=deepcopy(file_upload.file),
                 length=-1,
                 part_size=5 * 1024 * 1024,
