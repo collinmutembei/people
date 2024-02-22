@@ -14,8 +14,8 @@ class EmailSchema(BaseModel):
 
 
 conf = ConnectionConfig(
-    MAIL_USERNAME="username",
-    MAIL_PASSWORD="password",
+    MAIL_USERNAME="",
+    MAIL_PASSWORD="",
     MAIL_FROM="admin@people.api",
     MAIL_PORT=1025,
     MAIL_SERVER="localhost",

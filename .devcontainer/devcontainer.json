@@ -25,6 +25,7 @@
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
 		8000, // api
+		8001, // redis-insights
 		5432, // postgres
 		6379, // redis
 		1025, // mailpit
