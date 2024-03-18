@@ -35,9 +35,16 @@
 	],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "poetry config virtualenvs.in-project true && poetry install && just setup-precommit && just check",
+	"postCreateCommand": "brew install just minio-mc && poetry config virtualenvs.in-project true && poetry install",
+	// && just setup-precommit && just check
 	// && mc config host add minio http://localhost:9000 ${MINIO_ACCESS_KEY} ${MINIO_SECRET_KEY}
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-	"remoteUser": "vscode"
+	"remoteUser": "vscode",
+
+	"features": {
+		"ghcr.io/meaningful-ooo/devcontainer-features/homebrew:2": {
+			"shallowClone": true
+		}
+	}
 }

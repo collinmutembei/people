@@ -43,7 +43,7 @@ jobs:
       - name: Setup poetry
         uses: abatilo/actions-poetry@v2
         with:
-          poetry-version: 1.6.1
+          poetry-version: 1.8.2
       - name: Install dependencies
         run: poetry install
       - name: Run tests

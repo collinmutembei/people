@@ -22,8 +22,4 @@ RUN pip install -U pip poetry pre-commit
 
 # [Optional] Uncomment this section to install additional OS packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends libmagic1 just
-
-# Install minio client
-RUN cd /usr/local/bin && curl https://dl.min.io/client/mc/release/linux-amd64/mc -o mc
-RUN chmod +x /usr/local/bin/mc
+    && apt-get -y install --no-install-recommends libmagic1
