@@ -18,7 +18,8 @@
                 "8000",
                 "--reload"
             ],
-            "jinja": true
+            "jinja": true,
+            "justMyCode": false
         }
     ]
 }
