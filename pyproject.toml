@@ -20,6 +20,7 @@ minio = "^7.2.5"
 fastapi-mail = "^1.4.1"
 pydantic-settings = "^2.2.1"
 numpy = "^1.26.4"
+fastui = "^0.5.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.1"

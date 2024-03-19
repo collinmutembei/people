@@ -103,7 +103,11 @@ class User(BeanieBaseUser, Document):
 
 class ContactsFile(TimestampMixin, AuditActionsMixin, Document):
     id: UUID = Field(default_factory=uuid4)
-    filename: str
+    filename: Indexed(str, unique=True)  # type: ignore[valid-type]
+    uploader: Link[User]
+
+    class Settings:
+        name = "files"
 
 
 class SocialAccount(TimestampMixin, AuditActionsMixin, Document):

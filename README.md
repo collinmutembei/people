@@ -2,8 +2,6 @@
 
 # People
 
-Goal of this project is to build an API to help me
-
-- Keep track of my social connections, by storing people information
-- Discover connections from my network's links, by expanding the social graph autonomously
-- Be more intentional with social interactions, by identifying people with the most influence to achieve goals
+1. open in devcontainer
+2. start debug server
+3. visit http://localhost:8000

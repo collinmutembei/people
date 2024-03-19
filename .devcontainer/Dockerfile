@@ -1,6 +1,6 @@
 # [Choice] Python version: 3, 3.8, 3.7, 3.6
 ARG VARIANT=3.12
-FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
+FROM mcr.microsoft.com/vscode/devcontainers/python:1-${VARIANT}
 
 ENV PYTHONUNBUFFERED 1
 
@@ -18,18 +18,8 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 # RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
 #    && rm -rf /tmp/pip-tmp
 
-RUN pip install -U pip poetry
-
-# Configure poetry to install packages to the global python environment
-RUN poetry config virtualenvs.create false
+RUN pip install -U pip poetry pre-commit
 
 # [Optional] Uncomment this section to install additional OS packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends libmagic1
-
-# Install minio client
-RUN cd /usr/local/bin && curl https://dl.min.io/client/mc/release/linux-amd64/mc -o mc
-RUN chmod +x /usr/local/bin/mc
-
-# Configure minio client
-RUN mc config host add minio http://localhost:9000 minio password
