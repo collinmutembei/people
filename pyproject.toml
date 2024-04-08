@@ -25,7 +25,7 @@ fastui = "^0.5.2"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
 ipython = "^8.18.1"
-jsf = "^0.11.0"
+jsf = "^0.11.2"
 pytest-asyncio = "^0.23.6"
 setuptools = "^69.2.0"
 

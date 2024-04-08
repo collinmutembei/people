@@ -882,13 +882,13 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "jsf"
-version = "0.11.0"
+version = "0.11.2"
 description = "Creates fake JSON files from a JSON schema"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "jsf-0.11.0-py3-none-any.whl", hash = "sha256:08656e4d6c1a7aa171071140e9a30d454dcaef56270ceb725e96edca7bcdbe8a"},
-    {file = "jsf-0.11.0.tar.gz", hash = "sha256:4ab46ec853043015d9f2b0096032f947f573548e8942425c9616212aa7b5af99"},
+    {file = "jsf-0.11.2-py3-none-any.whl", hash = "sha256:b4472c8c2d776eb3e0bb08368caa6ae0ead7ea78b20653facc07b6d93768612c"},
+    {file = "jsf-0.11.2.tar.gz", hash = "sha256:07055b363281d38ce871a9256a00587d8472802c5108721a7fe5884465104b5d"},
 ]
 
 [package.dependencies]
@@ -2459,4 +2459,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.13"
-content-hash = "284fbd622b9e154e6b3be613d308323c7b5d41f77a7d31db737f79ef443fda8b"
+content-hash = "2e57dfc30c4ff233850ea6d831dd2f45cbfefb79da16f29487b309989736747f"
