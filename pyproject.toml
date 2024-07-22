@@ -19,7 +19,7 @@ pandas = ">=2.0.0"
 minio = "^7.2.7"
 fastapi-mail = "^1.4.1"
 pydantic-settings = "^2.3.4"
-numpy = "^2.0.0"
+numpy = "^2.0.1"
 fastui = "^0.6.0"
 
 [tool.poetry.group.dev.dependencies]
