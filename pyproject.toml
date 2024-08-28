@@ -13,7 +13,7 @@ fastapi-users = {version = "^13.0.0", extras = ["redis", "beanie", "oauth"]}
 loguru = "^0.7.2"
 python-decouple = "^3.8"
 phonenumbers = "^8.13.40"
-uvicorn = {version = "^0.30.1", extras = ["standard"]}
+uvicorn = {version = "^0.30.6", extras = ["standard"]}
 python-magic = "^0.4.27"
 pandas = ">=2.0.0"
 minio = "^7.2.7"
