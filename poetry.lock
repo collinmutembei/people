@@ -650,13 +650,13 @@ fastapi-users = ">=10.0.1"
 
 [[package]]
 name = "fastui"
-version = "0.6.0"
+version = "0.7.0"
 description = "Build better UIs faster."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "fastui-0.6.0-py3-none-any.whl", hash = "sha256:f5720ed88a6e135e91876d424a2e7a916e208d630d85d87db754881fcacd5f0e"},
-    {file = "fastui-0.6.0.tar.gz", hash = "sha256:9ad5749aa0e0b0aa59a4f8109a632532f56dce2b46c0239df661c3a6cbec9084"},
+    {file = "fastui-0.7.0-py3-none-any.whl", hash = "sha256:3e903828b26ecaef2da46e30bbe1123db20cf4a1c32d6c082665f52de9f639d2"},
+    {file = "fastui-0.7.0.tar.gz", hash = "sha256:08ec1b8437653fc37caaf3dae46566a43dbda3f190c62c43f8f3d063261dd1e8"},
 ]
 
 [package.dependencies]
@@ -2471,4 +2471,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.13"
-content-hash = "77c5ff0b62174788f53121e3750f59b213b13ea596cb6fba1f6517a6bf53bcf3"
+content-hash = "aa41d5e5f976f747d30033246d3c1b5625365f8709bd937aa5d3fd1647dc5523"
