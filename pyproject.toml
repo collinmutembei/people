@@ -18,7 +18,7 @@ python-magic = "^0.4.27"
 pandas = ">=2.0.0"
 minio = "^7.2.9"
 fastapi-mail = "^1.4.1"
-pydantic-settings = "^2.4.0"
+pydantic-settings = "^2.5.2"
 numpy = "^2.0.2"
 fastui = "^0.7.0"
 
